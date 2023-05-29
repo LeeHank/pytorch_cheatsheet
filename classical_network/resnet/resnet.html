@@ -1,0 +1,3032 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>3. Resnet &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'classical_network/resnet/resnet';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="2. VGG16" href="../vgg/vgg16.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">My sample book</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Cheat Sheet</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cheatsheet/pytorch_cheatsheet.html">1. Pytorch Cheatsheet</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Classical Network</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../vgg/vgg16.html">2. VGG16</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Resnet</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fclassical_network/resnet/resnet.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/classical_network/resnet/resnet.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Resnet</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.1. 理論介紹 &amp; 自己寫</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet-block">3.1.1. resnet block</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet-network">3.1.2. resnet network</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imagenet-utils">3.2. Imagenet utils</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-pretrained-model-explore-structure">3.3. import pretrained model &amp; explore structure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer-shape">3.3.1. 看個 layer 的 shape</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer">3.3.2. 看 layer 的細節</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#children">3.3.3. 取其中一個 children 出來</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.3.4. 查某一個 layer 的屬性</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.3.5. 替換某一個 layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-children-model">3.3.6. 取前 k 個 children 組成新 model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.4. resnet 直接用來預測</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-image">3.4.1. input image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model">3.4.2. model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predict">3.4.3. predict</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.5. 用來擷取特徵並做相似度搜尋</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">3.5.1. model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#images">3.5.2. images</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-extraction">3.5.3. feature extraction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">3.5.4. 相似度</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-learning">3.6. transfer learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">3.6.1. model 改最後一層就好</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#freeze-train">3.6.2. 決定要不要 freeze 之前的參數不 train</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-rate">3.6.3. 決定 learning rate 要不要分開訂</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training">3.6.4. 其他就都和一般 training 一樣了</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">3.6.4.1. 載入資料集</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training-data">3.6.4.2. 顯示 training data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training-validation">3.6.4.3. training/validation 用的函數</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#train">3.6.4.4. 開 train</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="resnet">
+<h1><span class="section-number">3. </span>Resnet<a class="headerlink" href="#resnet" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+import glob
+import time
+import copy
+
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+
+import torch
+from torch import nn, optim
+from torch.optim import lr_scheduler
+
+import torchvision
+from torchvision import transforms, datasets
+from torchvision.utils import make_grid
+from torchvision.models import resnet18, resnet50
+
+from torchinfo import summary
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>config 寫一下</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>device = torch.device(&#39;cuda&#39;) if torch.cuda.is_available else torch.device(&#39;cpu&#39;)
+device
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>device(type=&#39;cuda&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id1">
+<h2><span class="section-number">3.1. </span>理論介紹 &amp; 自己寫<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>這邊介紹 resnet18, 然後自己寫一遍。之後實作時，都會改 resnet50, 但概念大同小異，只是疊更多層.</p></li>
+<li><p>resnet18 的網路架構如下：</p></li>
+</ul>
+<p><img alt="" src="../../_images/resnet18-901.svg" /></p>
+<ul class="simple">
+<li><p>從這張架構圖，可以得知：</p>
+<ul>
+<li><p>img 剛進來時，先經過 7x7 conv -&gt; batch norm -&gt; 3x3 max pooling，得到 feature map.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2x</span></code> 下面，看起來是一個 block，我先稱它為 <code class="docutils literal notranslate"><span class="pre">simple</span> <span class="pre">resnet</span> <span class="pre">block</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">3x</span></code> 下面，看起來是2個 block 串再一起，前面是多出一個 1x1 conv，我稱它為 <code class="docutils literal notranslate"><span class="pre">1x1</span> <span class="pre">conv</span> <span class="pre">resnet</span> <span class="pre">block</span></code>, 後面就是剛剛看過的 <code class="docutils literal notranslate"><span class="pre">simple</span> <span class="pre">resnet</span> <span class="pre">block</span></code>。所以這邊是 3 個 (1x1 conv resnet block + simple resnet block) 的結構</p></li>
+<li><p>最後用 global average pooling，得到這張圖的 embedding (512維而已，好清爽).</p></li>
+<li><p>然後接個 fully connected layer, output 到 ImageNet 要預測的 1000 個類別</p></li>
+</ul>
+</li>
+<li><p>現在來細看一下 <code class="docutils literal notranslate"><span class="pre">2x</span></code>, <code class="docutils literal notranslate"><span class="pre">3x</span></code> 下的兩種 resnet block。如下圖：</p></li>
+</ul>
+<p><img alt="" src="../../_images/resnet-block1.svg" /></p>
+<ul class="simple">
+<li><p>右圖為啥要多一個 1x1 conv 呢？ 這是 shape 的考量：</p>
+<ul>
+<li><p>左圖 (simple resnet block)：</p>
+<ul>
+<li><p>一路的 conv, 都是通道數不變，高寬也不變(same padding)。</p></li>
+<li><p>所以 input x 是 (b, c, h, w), 經過一系列的 conv 後，還是 (b, c, h, w)，就可以和原本的 input x 直接相加</p></li>
+</ul>
+</li>
+<li><p>右圖 (1x1 conv resnet block)：</p>
+<ul>
+<li><p>一路的 conv, 會刻意將通道數翻倍，高寬減半(stride = 2)。</p></li>
+<li><p>所以 input x 是 (b, c, h, w), 經過一系列的 conv 後，變成 (b, 2c, h/2, w/2)，那就和原本的 x 的 shape不同。</p></li>
+<li><p>所以把 input 做 1x1 conv (input_channel = c, output_channel = 2c, kernel_size = 1, stride = 2, padding = 0), 就可以把 input x 也變成通道數翻倍, 高寬減半，就可以相加了</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>這樣對 resnet 應該頗瞭解了。先來偷看一下 pytorch 的 pretrained resnet18, 等等就要自己造一個出來</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>resnet = resnet18(weights=&quot;IMAGENET1K_V1&quot;)
+resnet
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ResNet(
+  (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (relu): ReLU(inplace=True)
+  (maxpool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (layer1): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer2): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer3): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer4): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (fc): Linear(in_features=512, out_features=1000, bias=True)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>nice，跟剛剛介紹的都一樣，唯一不樣的，是 <code class="docutils literal notranslate"><span class="pre">1x1</span> <span class="pre">conv</span> <span class="pre">resnet</span> <span class="pre">block</span></code> 的部分，他除了做 1x1 conv 外，又多做了 batch normalization。但這無傷大雅。</p></li>
+<li><p>另外，為啥他要把它命名為 downsample? 因為他用 1x1 conv 把原本的 feature map 高寬減半(stride = 2, padding = 0)，所以是在做高寬的 down sample。</p></li>
+<li><p>現在應該信心滿滿了～ 來自己寫一個吧！</p></li>
+</ul>
+<section id="resnet-block">
+<h3><span class="section-number">3.1.1. </span>resnet block<a class="headerlink" href="#resnet-block" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class Residual(nn.Module):  #@save
+    def __init__(self, input_channels, output_channels,
+                 use_1x1conv=False, strides=1):
+        super().__init__()
+        self.conv1 = nn.Conv2d(input_channels, output_channels,
+                               kernel_size=3, padding=1, stride=strides)
+        self.bn1 = nn.BatchNorm2d(output_channels)
+        self.relu = nn.ReLU()
+        self.conv2 = nn.Conv2d(output_channels, output_channels,
+                               kernel_size=3, padding=1)
+        self.bn2 = nn.BatchNorm2d(output_channels)
+        if use_1x1conv:
+            self.downsample = nn.Sequential(
+                nn.Conv2d(input_channels, output_channels,kernel_size=1, stride=strides),
+                nn.BatchNorm2d(output_channels)
+            )
+        else:
+            self.downsample = None
+        
+    def forward(self, X):
+        # 內層
+        Y = self.conv1(X)
+        Y = self.bn1(Y)
+        Y = self.relu(Y)
+        Y = self.conv2(Y)
+        Y = self.bn2(Y)
+        
+        # 殘差連接層
+        if self.downsample:
+            X = self.downsample(X)
+        Y += X
+        
+        # output
+        Y = self.relu(Y)
+        return Y
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># simple resnet block
+blk = Residual(input_channels = 64, output_channels = 64, use_1x1conv = False)
+blk
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Residual(
+  (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (relu): ReLU()
+  (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 1x1 conv resnet block
+blk = Residual(input_channels = 64, output_channels = 128, use_1x1conv = True, strides = 2)
+blk
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Residual(
+  (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (relu): ReLU()
+  (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (downsample): Sequential(
+    (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2))
+    (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="resnet-network">
+<h3><span class="section-number">3.1.2. </span>resnet network<a class="headerlink" href="#resnet-network" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>再看一次圖：</p></li>
+</ul>
+<p><img alt="" src="../../_images/resnet18-901.svg" /></p>
+<ul class="simple">
+<li><p>我想這樣組織我的 code:</p>
+<ul>
+<li><p>前面這三層，我叫 b1 (block1).</p></li>
+<li><p>再來的 <code class="docutils literal notranslate"><span class="pre">2x</span></code>，我叫 b2, 就用 sequential 接2次剛剛寫好的 <code class="docutils literal notranslate"><span class="pre">Residual</span></code> class 就好</p></li>
+<li><p>再來的 <code class="docutils literal notranslate"><span class="pre">3x</span></code>, 我想把 <code class="docutils literal notranslate"><span class="pre">conv</span> <span class="pre">resnet</span> <span class="pre">block</span></code>+<code class="docutils literal notranslate"><span class="pre">simple</span> <span class="pre">resnet</span> <span class="pre">block</span></code> 定義為 <code class="docutils literal notranslate"><span class="pre">compose_resnet_block</span></code>，然後分別用 b3, b4, b5 設定三組 block.</p></li>
+<li><p>最後就接 global average pooling 和 fully connected layer 就搞定了</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>b1 = nn.Sequential(
+    nn.Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3)),
+    nn.BatchNorm2d(64),
+    nn.ReLU(),
+    nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+)
+
+b2 = nn.Sequential(
+    Residual(input_channels = 64, output_channels = 64, use_1x1conv = False),
+    Residual(input_channels = 64, output_channels = 64, use_1x1conv = False)
+)
+
+def compose_resnet_block(input_channels, output_channels):
+    out = nn.Sequential(
+        Residual(
+            input_channels = input_channels, 
+            output_channels = output_channels, 
+            use_1x1conv = True,
+            strides = 2
+        ),
+        Residual(
+            input_channels = output_channels, 
+            output_channels = output_channels, 
+            use_1x1conv = False,
+            strides = 1
+        )
+    )
+    return out
+
+b3 = compose_resnet_block(input_channels = 64, output_channels = 128)
+b4 = compose_resnet_block(input_channels = 128, output_channels = 256)
+b5 = compose_resnet_block(input_channels = 256, output_channels = 512)
+
+# 組起來吧
+my_resnet = nn.Sequential(
+    b1, 
+    b2, 
+    b3, b4, b5,
+    nn.AdaptiveAvgPool2d((1,1)),
+    nn.Flatten(), 
+    nn.Linear(512, 1000)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>my_resnet
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sequential(
+  (0): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  )
+  (1): Sequential(
+    (0): Residual(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU()
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (1): Residual(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU()
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (2): Sequential(
+    (0): Residual(
+      (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU()
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2))
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Residual(
+      (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU()
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (3): Sequential(
+    (0): Residual(
+      (conv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU()
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2))
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Residual(
+      (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU()
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (4): Sequential(
+    (0): Residual(
+      (conv1): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU()
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2))
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Residual(
+      (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU()
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (5): AdaptiveAvgPool2d(output_size=(1, 1))
+  (6): Flatten(start_dim=1, end_dim=-1)
+  (7): Linear(in_features=512, out_features=1000, bias=True)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>讚拉！ 跑一次看看：</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>input_img = torch.rand(10, 3, 224, 224)
+out = my_resnet(input_img)
+out.shape
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([10, 1000])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="imagenet-utils">
+<h2><span class="section-number">3.2. </span>Imagenet utils<a class="headerlink" href="#imagenet-utils" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 1000 類的名稱
+with open(&quot;imagenet_classes.txt&quot;, &quot;r&quot;) as f:
+    categories = [s.strip().split(&#39;,&#39;)[0] for s in f.readlines()]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 看前10類
+categories[:10]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;tench&#39;,
+ &#39;goldfish&#39;,
+ &#39;great white shark&#39;,
+ &#39;tiger shark&#39;,
+ &#39;hammerhead&#39;,
+ &#39;electric ray&#39;,
+ &#39;stingray&#39;,
+ &#39;cock&#39;,
+ &#39;hen&#39;,
+ &#39;ostrich&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 影像餵入 model 前的前處理
+def imagenet_preprocess(pil_obj, normalize = False):
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor()
+    ])
+    if normalize:
+        transform = transforms.Compose([
+            transform,
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                                 std=[0.229, 0.224, 0.225])
+        ])
+        
+    input_tensor = transform(pil_obj)
+    return input_tensor
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="import-pretrained-model-explore-structure">
+<h2><span class="section-number">3.3. </span>import pretrained model &amp; explore structure<a class="headerlink" href="#import-pretrained-model-explore-structure" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>主角，resnet50，這樣 import</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from torchvision.models import resnet50
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># model = resnet50(pretrained=True) # pytorch 舊版的寫法
+model = resnet50(weights=&quot;IMAGENET1K_V1&quot;) # pytorch 新版的寫法
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>看一下 resnet50 的 structure</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ResNet(
+  (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (relu): ReLU(inplace=True)
+  (maxpool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (layer1): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (layer2): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (3): Bottleneck(
+      (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (layer3): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(512, 1024, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (3): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (4): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (5): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (layer4): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (fc): Linear(in_features=2048, out_features=1000, bias=True)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>可以看到和剛剛自己寫的大同小異。</p></li>
+<li><p>要做 feature extraction 的話，看來就是取到 <code class="docutils literal notranslate"><span class="pre">avgpool</span></code> 這個 block，再把他 flatten 成一維向量。</p></li>
+<li><p>要做 transfer learning 的話，就把最後一層的 linear，用新的 linear 來取代掉.</p></li>
+<li><p>先來看看幾種探索 structure 時常用的招</p></li>
+</ul>
+<section id="layer-shape">
+<h3><span class="section-number">3.3.1. </span>看個 layer 的 shape<a class="headerlink" href="#layer-shape" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>summary(model, (1,3,224,224))
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==========================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #
+==========================================================================================
+ResNet                                   [1, 1000]                 --
+├─Conv2d: 1-1                            [1, 64, 112, 112]         9,408
+├─BatchNorm2d: 1-2                       [1, 64, 112, 112]         128
+├─ReLU: 1-3                              [1, 64, 112, 112]         --
+├─MaxPool2d: 1-4                         [1, 64, 56, 56]           --
+├─Sequential: 1-5                        [1, 256, 56, 56]          --
+│    └─Bottleneck: 2-1                   [1, 256, 56, 56]          --
+│    │    └─Conv2d: 3-1                  [1, 64, 56, 56]           4,096
+│    │    └─BatchNorm2d: 3-2             [1, 64, 56, 56]           128
+│    │    └─ReLU: 3-3                    [1, 64, 56, 56]           --
+│    │    └─Conv2d: 3-4                  [1, 64, 56, 56]           36,864
+│    │    └─BatchNorm2d: 3-5             [1, 64, 56, 56]           128
+│    │    └─ReLU: 3-6                    [1, 64, 56, 56]           --
+│    │    └─Conv2d: 3-7                  [1, 256, 56, 56]          16,384
+│    │    └─BatchNorm2d: 3-8             [1, 256, 56, 56]          512
+│    │    └─Sequential: 3-9              [1, 256, 56, 56]          16,896
+│    │    └─ReLU: 3-10                   [1, 256, 56, 56]          --
+│    └─Bottleneck: 2-2                   [1, 256, 56, 56]          --
+│    │    └─Conv2d: 3-11                 [1, 64, 56, 56]           16,384
+│    │    └─BatchNorm2d: 3-12            [1, 64, 56, 56]           128
+│    │    └─ReLU: 3-13                   [1, 64, 56, 56]           --
+│    │    └─Conv2d: 3-14                 [1, 64, 56, 56]           36,864
+│    │    └─BatchNorm2d: 3-15            [1, 64, 56, 56]           128
+│    │    └─ReLU: 3-16                   [1, 64, 56, 56]           --
+│    │    └─Conv2d: 3-17                 [1, 256, 56, 56]          16,384
+│    │    └─BatchNorm2d: 3-18            [1, 256, 56, 56]          512
+│    │    └─ReLU: 3-19                   [1, 256, 56, 56]          --
+│    └─Bottleneck: 2-3                   [1, 256, 56, 56]          --
+│    │    └─Conv2d: 3-20                 [1, 64, 56, 56]           16,384
+│    │    └─BatchNorm2d: 3-21            [1, 64, 56, 56]           128
+│    │    └─ReLU: 3-22                   [1, 64, 56, 56]           --
+│    │    └─Conv2d: 3-23                 [1, 64, 56, 56]           36,864
+│    │    └─BatchNorm2d: 3-24            [1, 64, 56, 56]           128
+│    │    └─ReLU: 3-25                   [1, 64, 56, 56]           --
+│    │    └─Conv2d: 3-26                 [1, 256, 56, 56]          16,384
+│    │    └─BatchNorm2d: 3-27            [1, 256, 56, 56]          512
+│    │    └─ReLU: 3-28                   [1, 256, 56, 56]          --
+├─Sequential: 1-6                        [1, 512, 28, 28]          --
+│    └─Bottleneck: 2-4                   [1, 512, 28, 28]          --
+│    │    └─Conv2d: 3-29                 [1, 128, 56, 56]          32,768
+│    │    └─BatchNorm2d: 3-30            [1, 128, 56, 56]          256
+│    │    └─ReLU: 3-31                   [1, 128, 56, 56]          --
+│    │    └─Conv2d: 3-32                 [1, 128, 28, 28]          147,456
+│    │    └─BatchNorm2d: 3-33            [1, 128, 28, 28]          256
+│    │    └─ReLU: 3-34                   [1, 128, 28, 28]          --
+│    │    └─Conv2d: 3-35                 [1, 512, 28, 28]          65,536
+│    │    └─BatchNorm2d: 3-36            [1, 512, 28, 28]          1,024
+│    │    └─Sequential: 3-37             [1, 512, 28, 28]          132,096
+│    │    └─ReLU: 3-38                   [1, 512, 28, 28]          --
+│    └─Bottleneck: 2-5                   [1, 512, 28, 28]          --
+│    │    └─Conv2d: 3-39                 [1, 128, 28, 28]          65,536
+│    │    └─BatchNorm2d: 3-40            [1, 128, 28, 28]          256
+│    │    └─ReLU: 3-41                   [1, 128, 28, 28]          --
+│    │    └─Conv2d: 3-42                 [1, 128, 28, 28]          147,456
+│    │    └─BatchNorm2d: 3-43            [1, 128, 28, 28]          256
+│    │    └─ReLU: 3-44                   [1, 128, 28, 28]          --
+│    │    └─Conv2d: 3-45                 [1, 512, 28, 28]          65,536
+│    │    └─BatchNorm2d: 3-46            [1, 512, 28, 28]          1,024
+│    │    └─ReLU: 3-47                   [1, 512, 28, 28]          --
+│    └─Bottleneck: 2-6                   [1, 512, 28, 28]          --
+│    │    └─Conv2d: 3-48                 [1, 128, 28, 28]          65,536
+│    │    └─BatchNorm2d: 3-49            [1, 128, 28, 28]          256
+│    │    └─ReLU: 3-50                   [1, 128, 28, 28]          --
+│    │    └─Conv2d: 3-51                 [1, 128, 28, 28]          147,456
+│    │    └─BatchNorm2d: 3-52            [1, 128, 28, 28]          256
+│    │    └─ReLU: 3-53                   [1, 128, 28, 28]          --
+│    │    └─Conv2d: 3-54                 [1, 512, 28, 28]          65,536
+│    │    └─BatchNorm2d: 3-55            [1, 512, 28, 28]          1,024
+│    │    └─ReLU: 3-56                   [1, 512, 28, 28]          --
+│    └─Bottleneck: 2-7                   [1, 512, 28, 28]          --
+│    │    └─Conv2d: 3-57                 [1, 128, 28, 28]          65,536
+│    │    └─BatchNorm2d: 3-58            [1, 128, 28, 28]          256
+│    │    └─ReLU: 3-59                   [1, 128, 28, 28]          --
+│    │    └─Conv2d: 3-60                 [1, 128, 28, 28]          147,456
+│    │    └─BatchNorm2d: 3-61            [1, 128, 28, 28]          256
+│    │    └─ReLU: 3-62                   [1, 128, 28, 28]          --
+│    │    └─Conv2d: 3-63                 [1, 512, 28, 28]          65,536
+│    │    └─BatchNorm2d: 3-64            [1, 512, 28, 28]          1,024
+│    │    └─ReLU: 3-65                   [1, 512, 28, 28]          --
+├─Sequential: 1-7                        [1, 1024, 14, 14]         --
+│    └─Bottleneck: 2-8                   [1, 1024, 14, 14]         --
+│    │    └─Conv2d: 3-66                 [1, 256, 28, 28]          131,072
+│    │    └─BatchNorm2d: 3-67            [1, 256, 28, 28]          512
+│    │    └─ReLU: 3-68                   [1, 256, 28, 28]          --
+│    │    └─Conv2d: 3-69                 [1, 256, 14, 14]          589,824
+│    │    └─BatchNorm2d: 3-70            [1, 256, 14, 14]          512
+│    │    └─ReLU: 3-71                   [1, 256, 14, 14]          --
+│    │    └─Conv2d: 3-72                 [1, 1024, 14, 14]         262,144
+│    │    └─BatchNorm2d: 3-73            [1, 1024, 14, 14]         2,048
+│    │    └─Sequential: 3-74             [1, 1024, 14, 14]         526,336
+│    │    └─ReLU: 3-75                   [1, 1024, 14, 14]         --
+│    └─Bottleneck: 2-9                   [1, 1024, 14, 14]         --
+│    │    └─Conv2d: 3-76                 [1, 256, 14, 14]          262,144
+│    │    └─BatchNorm2d: 3-77            [1, 256, 14, 14]          512
+│    │    └─ReLU: 3-78                   [1, 256, 14, 14]          --
+│    │    └─Conv2d: 3-79                 [1, 256, 14, 14]          589,824
+│    │    └─BatchNorm2d: 3-80            [1, 256, 14, 14]          512
+│    │    └─ReLU: 3-81                   [1, 256, 14, 14]          --
+│    │    └─Conv2d: 3-82                 [1, 1024, 14, 14]         262,144
+│    │    └─BatchNorm2d: 3-83            [1, 1024, 14, 14]         2,048
+│    │    └─ReLU: 3-84                   [1, 1024, 14, 14]         --
+│    └─Bottleneck: 2-10                  [1, 1024, 14, 14]         --
+│    │    └─Conv2d: 3-85                 [1, 256, 14, 14]          262,144
+│    │    └─BatchNorm2d: 3-86            [1, 256, 14, 14]          512
+│    │    └─ReLU: 3-87                   [1, 256, 14, 14]          --
+│    │    └─Conv2d: 3-88                 [1, 256, 14, 14]          589,824
+│    │    └─BatchNorm2d: 3-89            [1, 256, 14, 14]          512
+│    │    └─ReLU: 3-90                   [1, 256, 14, 14]          --
+│    │    └─Conv2d: 3-91                 [1, 1024, 14, 14]         262,144
+│    │    └─BatchNorm2d: 3-92            [1, 1024, 14, 14]         2,048
+│    │    └─ReLU: 3-93                   [1, 1024, 14, 14]         --
+│    └─Bottleneck: 2-11                  [1, 1024, 14, 14]         --
+│    │    └─Conv2d: 3-94                 [1, 256, 14, 14]          262,144
+│    │    └─BatchNorm2d: 3-95            [1, 256, 14, 14]          512
+│    │    └─ReLU: 3-96                   [1, 256, 14, 14]          --
+│    │    └─Conv2d: 3-97                 [1, 256, 14, 14]          589,824
+│    │    └─BatchNorm2d: 3-98            [1, 256, 14, 14]          512
+│    │    └─ReLU: 3-99                   [1, 256, 14, 14]          --
+│    │    └─Conv2d: 3-100                [1, 1024, 14, 14]         262,144
+│    │    └─BatchNorm2d: 3-101           [1, 1024, 14, 14]         2,048
+│    │    └─ReLU: 3-102                  [1, 1024, 14, 14]         --
+│    └─Bottleneck: 2-12                  [1, 1024, 14, 14]         --
+│    │    └─Conv2d: 3-103                [1, 256, 14, 14]          262,144
+│    │    └─BatchNorm2d: 3-104           [1, 256, 14, 14]          512
+│    │    └─ReLU: 3-105                  [1, 256, 14, 14]          --
+│    │    └─Conv2d: 3-106                [1, 256, 14, 14]          589,824
+│    │    └─BatchNorm2d: 3-107           [1, 256, 14, 14]          512
+│    │    └─ReLU: 3-108                  [1, 256, 14, 14]          --
+│    │    └─Conv2d: 3-109                [1, 1024, 14, 14]         262,144
+│    │    └─BatchNorm2d: 3-110           [1, 1024, 14, 14]         2,048
+│    │    └─ReLU: 3-111                  [1, 1024, 14, 14]         --
+│    └─Bottleneck: 2-13                  [1, 1024, 14, 14]         --
+│    │    └─Conv2d: 3-112                [1, 256, 14, 14]          262,144
+│    │    └─BatchNorm2d: 3-113           [1, 256, 14, 14]          512
+│    │    └─ReLU: 3-114                  [1, 256, 14, 14]          --
+│    │    └─Conv2d: 3-115                [1, 256, 14, 14]          589,824
+│    │    └─BatchNorm2d: 3-116           [1, 256, 14, 14]          512
+│    │    └─ReLU: 3-117                  [1, 256, 14, 14]          --
+│    │    └─Conv2d: 3-118                [1, 1024, 14, 14]         262,144
+│    │    └─BatchNorm2d: 3-119           [1, 1024, 14, 14]         2,048
+│    │    └─ReLU: 3-120                  [1, 1024, 14, 14]         --
+├─Sequential: 1-8                        [1, 2048, 7, 7]           --
+│    └─Bottleneck: 2-14                  [1, 2048, 7, 7]           --
+│    │    └─Conv2d: 3-121                [1, 512, 14, 14]          524,288
+│    │    └─BatchNorm2d: 3-122           [1, 512, 14, 14]          1,024
+│    │    └─ReLU: 3-123                  [1, 512, 14, 14]          --
+│    │    └─Conv2d: 3-124                [1, 512, 7, 7]            2,359,296
+│    │    └─BatchNorm2d: 3-125           [1, 512, 7, 7]            1,024
+│    │    └─ReLU: 3-126                  [1, 512, 7, 7]            --
+│    │    └─Conv2d: 3-127                [1, 2048, 7, 7]           1,048,576
+│    │    └─BatchNorm2d: 3-128           [1, 2048, 7, 7]           4,096
+│    │    └─Sequential: 3-129            [1, 2048, 7, 7]           2,101,248
+│    │    └─ReLU: 3-130                  [1, 2048, 7, 7]           --
+│    └─Bottleneck: 2-15                  [1, 2048, 7, 7]           --
+│    │    └─Conv2d: 3-131                [1, 512, 7, 7]            1,048,576
+│    │    └─BatchNorm2d: 3-132           [1, 512, 7, 7]            1,024
+│    │    └─ReLU: 3-133                  [1, 512, 7, 7]            --
+│    │    └─Conv2d: 3-134                [1, 512, 7, 7]            2,359,296
+│    │    └─BatchNorm2d: 3-135           [1, 512, 7, 7]            1,024
+│    │    └─ReLU: 3-136                  [1, 512, 7, 7]            --
+│    │    └─Conv2d: 3-137                [1, 2048, 7, 7]           1,048,576
+│    │    └─BatchNorm2d: 3-138           [1, 2048, 7, 7]           4,096
+│    │    └─ReLU: 3-139                  [1, 2048, 7, 7]           --
+│    └─Bottleneck: 2-16                  [1, 2048, 7, 7]           --
+│    │    └─Conv2d: 3-140                [1, 512, 7, 7]            1,048,576
+│    │    └─BatchNorm2d: 3-141           [1, 512, 7, 7]            1,024
+│    │    └─ReLU: 3-142                  [1, 512, 7, 7]            --
+│    │    └─Conv2d: 3-143                [1, 512, 7, 7]            2,359,296
+│    │    └─BatchNorm2d: 3-144           [1, 512, 7, 7]            1,024
+│    │    └─ReLU: 3-145                  [1, 512, 7, 7]            --
+│    │    └─Conv2d: 3-146                [1, 2048, 7, 7]           1,048,576
+│    │    └─BatchNorm2d: 3-147           [1, 2048, 7, 7]           4,096
+│    │    └─ReLU: 3-148                  [1, 2048, 7, 7]           --
+├─AdaptiveAvgPool2d: 1-9                 [1, 2048, 1, 1]           --
+├─Linear: 1-10                           [1, 1000]                 2,049,000
+==========================================================================================
+Total params: 25,557,032
+Trainable params: 25,557,032
+Non-trainable params: 0
+Total mult-adds (G): 4.09
+==========================================================================================
+Input size (MB): 0.60
+Forward/backward pass size (MB): 177.83
+Params size (MB): 102.23
+Estimated Total Size (MB): 280.66
+==========================================================================================
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>可以看到</p>
+<ul>
+<li><p>一開始的輸入是 (3,224,224)</p></li>
+<li><p>最終，提取完的 feature map，就是 (2048, 7, 7)</p></li>
+<li><p>AdaptiveAvgPool2d(1,1)就是 global average pooling, 做完後就是 2048 維的 embedding (這要背一下)</p></li>
+<li><p>再來進到分類的部分就是個 fully connected layer而已。從 2048 到目標的 1000 類</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="layer">
+<h3><span class="section-number">3.3.2. </span>看 layer 的細節<a class="headerlink" href="#layer" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.named_children()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object Module.named_children at 0x7fa27a47a7b0&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for n, c in model.named_children():
+    print(n)
+    print(c)
+    print(&quot;-------------&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>conv1
+Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+-------------
+bn1
+BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+-------------
+relu
+ReLU(inplace=True)
+-------------
+maxpool
+MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+-------------
+layer1
+Sequential(
+  (0): Bottleneck(
+    (conv1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+    (downsample): Sequential(
+      (0): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (1): Bottleneck(
+    (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+  (2): Bottleneck(
+    (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+)
+-------------
+layer2
+Sequential(
+  (0): Bottleneck(
+    (conv1): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+    (downsample): Sequential(
+      (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+      (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (1): Bottleneck(
+    (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+  (2): Bottleneck(
+    (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+  (3): Bottleneck(
+    (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+)
+-------------
+layer3
+Sequential(
+  (0): Bottleneck(
+    (conv1): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+    (downsample): Sequential(
+      (0): Conv2d(512, 1024, kernel_size=(1, 1), stride=(2, 2), bias=False)
+      (1): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (1): Bottleneck(
+    (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+  (2): Bottleneck(
+    (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+  (3): Bottleneck(
+    (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+  (4): Bottleneck(
+    (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+  (5): Bottleneck(
+    (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+)
+-------------
+layer4
+Sequential(
+  (0): Bottleneck(
+    (conv1): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+    (downsample): Sequential(
+      (0): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(2, 2), bias=False)
+      (1): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (1): Bottleneck(
+    (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+  (2): Bottleneck(
+    (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+  )
+)
+-------------
+avgpool
+AdaptiveAvgPool2d(output_size=(1, 1))
+-------------
+fc
+Linear(in_features=2048, out_features=1000, bias=True)
+-------------
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="children">
+<h3><span class="section-number">3.3.3. </span>取其中一個 children 出來<a class="headerlink" href="#children" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>就直接抓就好</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 抓某個 layer
+model.fc
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Linear(in_features=2048, out_features=1000, bias=True)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id2">
+<h3><span class="section-number">3.3.4. </span>查某一個 layer 的屬性<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>例如最常見的，我想查最後一個 layer 的 input dim, 和 output dim，那就：</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.fc.in_features
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2048
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.fc.out_features
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h3><span class="section-number">3.3.5. </span>替換某一個 layer<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>例如，我想替換掉最後一個 layer, 我現在想做的分類只有 2 類</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>in_feature = model.fc.in_features # 2048
+out_class = 2
+model.fc = nn.Linear(in_feature, out_class)
+
+# 看一下結果
+model.fc
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Linear(in_features=2048, out_features=2, bias=True)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="k-children-model">
+<h3><span class="section-number">3.3.6. </span>取前 k 個 children 組成新 model<a class="headerlink" href="#k-children-model" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>我如果想做 feature extraction, 那我想取 resnet 從最前面直到 <code class="docutils literal notranslate"><span class="pre">avgpool</span></code> 的 block</p></li>
+<li><p>那我可以這樣做：</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>resnet_feature_extractor = nn.Sequential()
+for name, block in model.named_children():
+    resnet_feature_extractor.add_module(name, block)
+    if name == &quot;avgpool&quot;:
+        break
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>resnet_feature_extractor
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sequential(
+  (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (relu): ReLU(inplace=True)
+  (maxpool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (layer1): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (layer2): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (3): Bottleneck(
+      (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (layer3): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(512, 1024, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (3): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (4): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (5): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (layer4): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2><span class="section-number">3.4. </span>resnet 直接用來預測<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<section id="input-image">
+<h3><span class="section-number">3.4.1. </span>input image<a class="headerlink" href="#input-image" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>filename = &#39;images_test/cat.jpg&#39;
+input_image = Image.open(filename)
+input_image
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/496eb1921a9bb3c8632d16512cb807e899eb6e4d23d13f086e012792abf40d27.png" src="../../_images/496eb1921a9bb3c8632d16512cb807e899eb6e4d23d13f086e012792abf40d27.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>input_tensor = imagenet_preprocess(input_image)
+input_batch = input_tensor.unsqueeze(0) # 增加一維(筆數)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(input_tensor.shape)
+print(input_tensor.dtype)
+print(input_tensor.min())
+print(input_tensor.max())
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([3, 224, 224])
+torch.float32
+tensor(0.)
+tensor(1.)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="model">
+<h3><span class="section-number">3.4.2. </span>model<a class="headerlink" href="#model" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = resnet50(weights=&quot;IMAGENET1K_V1&quot;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="predict">
+<h3><span class="section-number">3.4.3. </span>predict<a class="headerlink" href="#predict" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.eval()
+with torch.no_grad():
+    model = model.to(device)
+    input_batch = input_batch.to(device)
+    
+    output = model(input_batch)
+
+# 轉成機率
+probabilities = torch.nn.functional.softmax(output[0], dim=0)
+max_item = torch.argmax(probabilities).item()
+print(f&#39;{max_item} {categories[max_item]}: {torch.max(probabilities).item()}&#39;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>285 Egyptian cat: 0.3680180609226227
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2><span class="section-number">3.5. </span>用來擷取特徵並做相似度搜尋<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<section id="id6">
+<h3><span class="section-number">3.5.1. </span>model<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = resnet50(weights=&quot;IMAGENET1K_V1&quot;)
+
+resnet_feature_extractor = nn.Sequential()
+for name, block in model.named_children():
+    resnet_feature_extractor.add_module(name, block)
+    if name == &quot;avgpool&quot;:
+        break
+
+resnet_feature_extractor.add_module(&quot;flatten&quot;, nn.Flatten())
+resnet_feature_extractor
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sequential(
+  (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (relu): ReLU(inplace=True)
+  (maxpool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (layer1): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (layer2): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (3): Bottleneck(
+      (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (layer3): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(512, 1024, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (3): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (4): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (5): Bottleneck(
+      (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (layer4): Sequential(
+    (0): Bottleneck(
+      (conv1): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (downsample): Sequential(
+        (0): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): Bottleneck(
+      (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>最終，input一張圖，output 出 2048 維的向量</p></li>
+</ul>
+</section>
+<section id="images">
+<h3><span class="section-number">3.5.2. </span>images<a class="headerlink" href="#images" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import glob
+abs_path_list = glob.glob(&quot;images_test/*&quot;)
+filename_list = [i.split(&quot;/&quot;)[-1].replace(&quot;.jpg&quot;, &quot;&quot;) for i in abs_path_list]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>X = torch.tensor([])
+for abs_path, filename in zip(abs_path_list, filename_list):
+    input_image = Image.open(abs_path)
+    input_tensor = imagenet_preprocess(input_image, True)
+    input_batch = input_tensor.unsqueeze(0) # 增加一維(筆數)
+    if len(X.shape) == 1:
+        # print(input_batch.shape)
+        X = input_batch
+    else:
+        # print(input_batch.shape)
+        X = torch.cat((X, input_batch), dim=0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>X.shape
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([22, 3, 224, 224])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>aa = make_grid(X, nrow = 5, padding = 10)
+plt.imshow(aa.permute(1, 2, 0));
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+</pre></div>
+</div>
+<img alt="../../_images/8af94e9ddefa7ad963b88c66fd253b7db900c962d7b53c326eee972c7d3f3e29.png" src="../../_images/8af94e9ddefa7ad963b88c66fd253b7db900c962d7b53c326eee972c7d3f3e29.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(filename_list)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;lion2&#39;, &#39;elephant&#39;, &#39;tiger1&#39;, &#39;panda2&#39;, &#39;astronaut&#39;, &#39;owl&#39;, &#39;peacock&#39;, &#39;daisy2&#39;, &#39;rose.png&#39;, &#39;bird2&#39;, &#39;panda1&#39;, &#39;elephant2&#39;, &#39;panda3&#39;, &#39;tiger3&#39;, &#39;rose2&#39;, &#39;toucan&#39;, &#39;bird&#39;, &#39;cat&#39;, &#39;daisy1&#39;, &#39;deer&#39;, &#39;tiger2&#39;, &#39;lion1&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="feature-extraction">
+<h3><span class="section-number">3.5.3. </span>feature extraction<a class="headerlink" href="#feature-extraction" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.eval()
+with torch.no_grad():
+    X = X.to(device)
+    resnet_feature_extractor = resnet_feature_extractor.to(device)
+    features = resnet_feature_extractor(X)
+features.shape
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([22, 2048])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h3><span class="section-number">3.5.4. </span>相似度<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>假設我今天的 query image 是 <code class="docutils literal notranslate"><span class="pre">tiger2.jpg</span></code>, 位於檔名list的倒數第二個</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>index = -2
+plt.imshow(X[index].permute(1,2,0).cpu());
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+</pre></div>
+</div>
+<img alt="../../_images/ff4713db78ae20b3391e9de357c6f5c54cecff0926ed2e313c233c96cef92dc7.png" src="../../_images/ff4713db78ae20b3391e9de357c6f5c54cecff0926ed2e313c233c96cef92dc7.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>我想找找看，剛剛這 22 張圖中，哪個跟這張最像</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sklearn.metrics.pairwise import cosine_similarity
+
+features = features.cpu()
+
+# Tiger2.jpg 的 embedding
+tiger2_features = features[index:index+1] # shape = (1, 25088)
+
+# 排除 Tiger2.jpg 的其他圖檔特徵向量
+other_features = np.concatenate((features[:index], features[index+1:])) # shape = (21, 25088)
+
+# 使用 cosine_similarity 計算 Cosine 函數
+similar_list = cosine_similarity(tiger2_features, other_features, dense_output=False)
+
+# 顯示相似度，由大排到小
+print(np.sort(similar_list[0])[::-1])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.86341155 0.81118935 0.70302135 0.6954032  0.6351156  0.6197033
+ 0.6155931  0.61443794 0.6122488  0.60893935 0.58921397 0.5829755
+ 0.574617   0.5704397  0.53148544 0.5203887  0.4704514  0.4290331
+ 0.4275659  0.4199425  0.405274  ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 依相似度，由大排到小，顯示檔名
+image_files2 = np.delete(filename_list, index)
+image_files2[np.argsort(similar_list[0])[::-1]]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;tiger1&#39;, &#39;tiger3&#39;, &#39;cat&#39;, &#39;lion1&#39;, &#39;elephant2&#39;, &#39;panda1&#39;, &#39;owl&#39;,
+       &#39;astronaut&#39;, &#39;lion2&#39;, &#39;deer&#39;, &#39;elephant&#39;, &#39;panda3&#39;, &#39;bird&#39;,
+       &#39;panda2&#39;, &#39;daisy2&#39;, &#39;bird2&#39;, &#39;rose2&#39;, &#39;daisy1&#39;, &#39;toucan&#39;,
+       &#39;peacock&#39;, &#39;rose.png&#39;], dtype=&#39;&lt;U9&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>果然和他最像的，是 tiger1, 再來是 tiger3。 not bad!</p></li>
+</ul>
+</section>
+</section>
+<section id="transfer-learning">
+<h2><span class="section-number">3.6. </span>transfer learning<a class="headerlink" href="#transfer-learning" title="Permalink to this heading">#</a></h2>
+<section id="id8">
+<h3><span class="section-number">3.6.1. </span>model 改最後一層就好<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>target_classes = 2
+model = resnet50(weights=&quot;IMAGENET1K_V1&quot;)
+# model = resnet50(pretrained=True)
+num_ftrs = model.fc.in_features
+model.fc = nn.Linear(num_ftrs, target_classes)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="freeze-train">
+<h3><span class="section-number">3.6.2. </span>決定要不要 freeze 之前的參數不 train<a class="headerlink" href="#freeze-train" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>剛剛改寫了最後一層的 fully connected layer，所以這個 layer 的參數當然是 trainable.</p></li>
+<li><p>預設狀況下，前面 feature extraction 的所有層的參數，也都是 trainable.</p></li>
+<li><p>但如果想把前面都 freeze 住，可以這樣做：</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># freeze 住所有參數</span>
+<span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+    <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1"># 最後一層打開</span>
+<span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">fc</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+    <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</section>
+<section id="learning-rate">
+<h3><span class="section-number">3.6.3. </span>決定 learning rate 要不要分開訂<a class="headerlink" href="#learning-rate" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>做 transfer learning 時，前面的參數其實都已經訓練得很好了，需要的 learning rate 很小.</p></li>
+<li><p>相反的，最後一層的 classifier，是從隨機起始值開始，需要的 learning rate 比較大.</p></li>
+<li><p>所以比較好的作法，是給兩邊不同的 learning rate</p></li>
+<li><p>(當然，比較簡單的作法，是直接給統一的，很小的 learning rate, 讓他在最後的 classifier 慢慢更新就好)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 重寫 model
+# feature extraction part: pretrained model
+model = resnet50(weights=&quot;IMAGENET1K_V1&quot;)
+
+resnet_feature_extractor = nn.Sequential()
+for name, block in model.named_children():
+    resnet_feature_extractor.add_module(name, block)
+    if name == &quot;avgpool&quot;:
+        break
+
+# classifier: new
+num_ftrs = model.fc.in_features
+target_classes = 2
+classifier = nn.Sequential(
+    nn.Flatten(),
+    nn.Linear(num_ftrs, target_classes)
+)
+
+# 合併
+model = nn.Sequential()
+model.add_module(&quot;base&quot;, resnet_feature_extractor)
+model.add_module(&quot;classifier&quot;, classifier)
+
+model
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sequential(
+  (base): Sequential(
+    (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+    (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+    (maxpool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (layer1): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (downsample): Sequential(
+          (0): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (layer2): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (downsample): Sequential(
+          (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (3): Bottleneck(
+        (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (layer3): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (downsample): Sequential(
+          (0): Conv2d(512, 1024, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (1): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (3): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (4): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (5): Bottleneck(
+        (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (layer4): Sequential(
+      (0): Bottleneck(
+        (conv1): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (downsample): Sequential(
+          (0): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (1): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Bottleneck(
+        (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+      (2): Bottleneck(
+        (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+      )
+    )
+    (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  )
+  (classifier): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=2048, out_features=2, bias=True)
+  )
+)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>那我現在就可以指定兩個 part 的參數了：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">model.base.parameters()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model.classifier.parameters()</span></code></p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>optimizer = optim.SGD([
+                {&#39;params&#39;: model.base.parameters()},
+                {&#39;params&#39;: model.classifier.parameters(), &#39;lr&#39;: 1e-4}
+            ], lr=1e-3, momentum=0.9)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training">
+<h3><span class="section-number">3.6.4. </span>其他就都和一般 training 一樣了<a class="headerlink" href="#training" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>來做一個官網的資料集</p></li>
+</ul>
+<section id="id9">
+<h4><span class="section-number">3.6.4.1. </span>載入資料集<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 訓練資料進行資料增補，驗證資料不需要
+data_transforms = {
+    &#39;train&#39;: transforms.Compose([
+        transforms.RandomResizedCrop(224), # 資料增補
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]),
+    &#39;val&#39;: transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]),
+}
+
+# 使用 ImageFolder 可方便轉換為 dataset
+data_dir = &#39;data&#39;
+image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
+                                          data_transforms[x])
+                  for x in [&#39;train&#39;, &#39;val&#39;]}
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=4,
+                                             shuffle=True, num_workers=4)
+              for x in [&#39;train&#39;, &#39;val&#39;]}
+
+# 取得資料筆數
+dataset_sizes = {x: len(image_datasets[x]) for x in [&#39;train&#39;, &#39;val&#39;]}
+
+# 取得類別
+class_names = image_datasets[&#39;train&#39;].classes
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training-data">
+<h4><span class="section-number">3.6.4.2. </span>顯示 training data<a class="headerlink" href="#training-data" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def imshow(inp, title=None):
+    inp = inp.numpy().transpose((1, 2, 0))
+    mean = np.array([0.485, 0.456, 0.406])
+    std = np.array([0.229, 0.224, 0.225])
+    inp = std * inp + mean
+    inp = np.clip(inp, 0, 1)
+    plt.axis(&#39;off&#39;)
+    plt.imshow(inp)
+    if title is not None:
+        plt.title(title)
+    plt.pause(0.001)  # pause a bit so that plots are updated
+
+
+# 取得一批資料
+inputs, classes = next(iter(dataloaders[&#39;train&#39;]))
+
+# 顯示一批資料
+out = torchvision.utils.make_grid(inputs)
+imshow(out, title=[class_names[x] for x in classes])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/38f57685286a2c59e9b678008a7e4e3b442eb7f858403458c015ce60c1cd5c3e.png" src="../../_images/38f57685286a2c59e9b678008a7e4e3b442eb7f858403458c015ce60c1cd5c3e.png" />
+</div>
+</div>
+</section>
+<section id="training-validation">
+<h4><span class="section-number">3.6.4.3. </span>training/validation 用的函數<a class="headerlink" href="#training-validation" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 定義 model
+# 前面已做完, 叫 model
+model = model.to(device)
+
+
+# 定義 optimizer
+# 前面已做完, 叫 optimizer, 且有不同 learning rate
+# optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+
+# 定義損失函數
+criterion = nn.CrossEntropyLoss()
+
+# 每7個執行週期，學習率降 0.1
+exp_lr_scheduler = lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 同時含訓練/評估
+def train_model(model, 
+                criterion, 
+                optimizer, 
+                scheduler, 
+                num_epochs=25):
+    since = time.time()
+
+    best_model_wts = copy.deepcopy(model.state_dict())
+    best_acc = 0.0
+
+    for epoch in range(num_epochs):
+        print(&#39;Epoch {}/{}&#39;.format(epoch, num_epochs - 1))
+        print(&#39;-&#39; * 10)
+
+        # Each epoch has a training and validation phase
+        for phase in [&#39;train&#39;, &#39;val&#39;]:
+            if phase == &#39;train&#39;:
+                model.train()  # Set model to training mode
+            else:
+                model.eval()   # Set model to evaluate mode
+
+            running_loss = 0.0
+            running_corrects = 0
+
+            # 逐批訓練或驗證
+            for inputs, labels in dataloaders[phase]:
+                inputs = inputs.to(device)
+                labels = labels.to(device)
+
+                # zero the parameter gradients
+                optimizer.zero_grad()
+
+                # 訓練時需要梯度下降
+                with torch.set_grad_enabled(phase == &#39;train&#39;):
+                    outputs = model(inputs)
+                    _, preds = torch.max(outputs, 1)
+                    loss = criterion(outputs, labels)
+
+                    # 訓練時需要 backward + optimize
+                    if phase == &#39;train&#39;:
+                        loss.backward()
+                        optimizer.step()
+
+                # 統計損失
+                running_loss += loss.item() * inputs.size(0)
+                running_corrects += torch.sum(preds == labels.data)
+            #if phase == &#39;train&#39;:
+            #    scheduler.step()
+
+            epoch_loss = running_loss / dataset_sizes[phase]
+            epoch_acc = running_corrects.double() / dataset_sizes[phase]
+
+            print(&#39;{} Loss: {:.4f} Acc: {:.4f}&#39;.format(
+                phase, epoch_loss, epoch_acc))
+
+            # 如果是評估階段，且準確率創新高即存入 best_model_wts
+            if phase == &#39;val&#39; and epoch_acc &gt; best_acc:
+                best_acc = epoch_acc
+                best_model_wts = copy.deepcopy(model.state_dict())
+        print()
+
+    time_elapsed = time.time() - since
+    print(&#39;Training complete in {(time_elapsed // 60):.0f}m {(time_elapsed % 60):.0f}s&#39;)
+    print(f&#39;Best val Acc: {best_acc:4f}&#39;)
+
+    # 載入最佳模型
+    model.load_state_dict(best_model_wts)
+    return model
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="train">
+<h4><span class="section-number">3.6.4.4. </span>開 train<a class="headerlink" href="#train" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model_ft = train_model(model, criterion, optimizer, exp_lr_scheduler, num_epochs=25)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0/24
+----------
+train Loss: 0.5472 Acc: 0.6721
+val Loss: 0.2837 Acc: 0.9216
+
+Epoch 1/24
+----------
+train Loss: 0.3789 Acc: 0.8074
+val Loss: 0.1794 Acc: 0.9477
+
+Epoch 2/24
+----------
+train Loss: 0.3411 Acc: 0.8443
+val Loss: 0.2274 Acc: 0.8954
+
+Epoch 3/24
+----------
+train Loss: 0.2491 Acc: 0.9139
+val Loss: 0.2081 Acc: 0.9216
+
+Epoch 4/24
+----------
+train Loss: 0.3035 Acc: 0.8770
+val Loss: 0.1857 Acc: 0.9150
+
+Epoch 5/24
+----------
+train Loss: 0.2478 Acc: 0.9180
+val Loss: 0.1515 Acc: 0.9477
+
+Epoch 6/24
+----------
+train Loss: 0.2780 Acc: 0.8770
+val Loss: 0.2146 Acc: 0.9346
+
+Epoch 7/24
+----------
+train Loss: 0.2716 Acc: 0.8852
+val Loss: 0.4029 Acc: 0.8235
+
+Epoch 8/24
+----------
+train Loss: 0.2503 Acc: 0.9057
+val Loss: 0.2389 Acc: 0.9281
+
+Epoch 9/24
+----------
+train Loss: 0.2715 Acc: 0.8893
+val Loss: 0.1905 Acc: 0.9216
+
+Epoch 10/24
+----------
+train Loss: 0.3650 Acc: 0.8361
+val Loss: 0.2173 Acc: 0.9216
+
+Epoch 11/24
+----------
+train Loss: 0.3001 Acc: 0.8607
+val Loss: 0.1743 Acc: 0.9216
+
+Epoch 12/24
+----------
+train Loss: 0.2243 Acc: 0.9303
+val Loss: 0.1697 Acc: 0.9150
+
+Epoch 13/24
+----------
+train Loss: 0.2187 Acc: 0.9139
+val Loss: 0.2133 Acc: 0.9020
+
+Epoch 14/24
+----------
+train Loss: 0.3283 Acc: 0.8402
+val Loss: 0.1997 Acc: 0.9085
+
+Epoch 15/24
+----------
+train Loss: 0.2970 Acc: 0.8730
+val Loss: 0.1892 Acc: 0.9281
+
+Epoch 16/24
+----------
+train Loss: 0.2740 Acc: 0.8689
+val Loss: 0.1998 Acc: 0.9216
+
+Epoch 17/24
+----------
+train Loss: 0.2432 Acc: 0.8975
+val Loss: 0.1945 Acc: 0.9150
+
+Epoch 18/24
+----------
+train Loss: 0.2705 Acc: 0.8893
+val Loss: 0.1963 Acc: 0.9020
+
+Epoch 19/24
+----------
+train Loss: 0.2062 Acc: 0.9139
+val Loss: 0.2971 Acc: 0.8758
+
+Epoch 20/24
+----------
+train Loss: 0.2304 Acc: 0.8934
+val Loss: 0.2199 Acc: 0.9085
+
+Epoch 21/24
+----------
+train Loss: 0.2613 Acc: 0.8730
+val Loss: 0.2247 Acc: 0.9085
+
+Epoch 22/24
+----------
+train Loss: 0.1916 Acc: 0.9139
+val Loss: 0.2524 Acc: 0.9150
+
+Epoch 23/24
+----------
+train Loss: 0.2297 Acc: 0.9180
+val Loss: 0.1457 Acc: 0.9477
+
+Epoch 24/24
+----------
+train Loss: 0.2562 Acc: 0.8893
+val Loss: 0.1589 Acc: 0.9346
+
+Training complete in {(time_elapsed // 60):.0f}m {(time_elapsed % 60):.0f}s
+Best val Acc: 0.947712
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "py39"
+        },
+        kernelOptions: {
+            name: "py39",
+            path: "./classical_network/resnet"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'py39'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../vgg/vgg16.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>VGG16</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.1. 理論介紹 &amp; 自己寫</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet-block">3.1.1. resnet block</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resnet-network">3.1.2. resnet network</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imagenet-utils">3.2. Imagenet utils</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-pretrained-model-explore-structure">3.3. import pretrained model &amp; explore structure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer-shape">3.3.1. 看個 layer 的 shape</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer">3.3.2. 看 layer 的細節</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#children">3.3.3. 取其中一個 children 出來</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.3.4. 查某一個 layer 的屬性</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.3.5. 替換某一個 layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-children-model">3.3.6. 取前 k 個 children 組成新 model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.4. resnet 直接用來預測</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-image">3.4.1. input image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model">3.4.2. model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predict">3.4.3. predict</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.5. 用來擷取特徵並做相似度搜尋</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">3.5.1. model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#images">3.5.2. images</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-extraction">3.5.3. feature extraction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">3.5.4. 相似度</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-learning">3.6. transfer learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">3.6.1. model 改最後一層就好</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#freeze-train">3.6.2. 決定要不要 freeze 之前的參數不 train</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-rate">3.6.3. 決定 learning rate 要不要分開訂</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training">3.6.4. 其他就都和一般 training 一樣了</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">3.6.4.1. 載入資料集</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training-data">3.6.4.2. 顯示 training data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training-validation">3.6.4.3. training/validation 用的函數</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#train">3.6.4.4. 開 train</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

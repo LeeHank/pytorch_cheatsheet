@@ -1,0 +1,1736 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>2. VGG16 &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'classical_network/vgg/vgg16';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3. Resnet" href="../resnet/resnet.html" />
+    <link rel="prev" title="1. Pytorch Cheatsheet" href="../../cheatsheet/pytorch_cheatsheet.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">My sample book</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Cheat Sheet</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cheatsheet/pytorch_cheatsheet.html">1. Pytorch Cheatsheet</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Classical Network</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. VGG16</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resnet/resnet.html">3. Resnet</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fclassical_network/vgg/vgg16.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/classical_network/vgg/vgg16.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>VGG16</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imagenet-utils">2.1. Imagenet utils</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-pretrained-model-explore-structure">2.2. import pretrained model &amp; explore structure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer-shape">2.2.1. 看個 layer 的 shape</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer">2.2.2. 看 layer 的細節</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-children">2.2.3. 看 model 的 children</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#children">2.2.4. 取其中一個 children 出來</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.2.5. 查某一個 layer 的屬性</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.2.6. 替換某一個 layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-children-model">2.2.7. 取前 k 個 children 組成新 model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.2.7.1. 窮舉法 (直觀但慢)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for">2.2.8. for 迴圈找到停</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.3. 直接用來預測</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-image">2.3.1. input image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model">2.3.2. model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predict">2.3.3. predict</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2.4. 用來擷取特徵並做相似度搜尋</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">2.4.1. model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#images">2.4.2. images</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-extraction">2.4.3. feature extraction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">2.4.4. 相似度</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-learning">2.5. transfer learning</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="vgg16">
+<h1><span class="section-number">2. </span>VGG16<a class="headerlink" href="#vgg16" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+
+import torch
+from torch import nn
+from torchvision import transforms
+from torchvision.utils import make_grid
+
+from torchinfo import summary
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>config 寫一下</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="imagenet-utils">
+<h2><span class="section-number">2.1. </span>Imagenet utils<a class="headerlink" href="#imagenet-utils" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 1000 類的名稱
+with open(&quot;imagenet_classes.txt&quot;, &quot;r&quot;) as f:
+    categories = [s.strip().split(&#39;,&#39;)[0] for s in f.readlines()]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 看前10類
+categories[:10]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;tench&#39;,
+ &#39;goldfish&#39;,
+ &#39;great white shark&#39;,
+ &#39;tiger shark&#39;,
+ &#39;hammerhead&#39;,
+ &#39;electric ray&#39;,
+ &#39;stingray&#39;,
+ &#39;cock&#39;,
+ &#39;hen&#39;,
+ &#39;ostrich&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 影像餵入 model 前的前處理
+def imagenet_preprocess(pil_obj, normalize = False):
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor()
+    ])
+    if normalize:
+        transform = transforms.Compose([
+            transform,
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                                 std=[0.229, 0.224, 0.225])
+        ])
+        
+    input_tensor = transform(pil_obj)
+    return input_tensor
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="import-pretrained-model-explore-structure">
+<h2><span class="section-number">2.2. </span>import pretrained model &amp; explore structure<a class="headerlink" href="#import-pretrained-model-explore-structure" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>主角，vgg16，這樣 import</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from torchvision.models import vgg16
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = vgg16(pretrained=True) # pytorch 舊版的寫法
+# model = vgg16(weights=&quot;IMAGENET1K_V1&quot;) # pytorch 新版的寫法
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>看一下 vgg 的 structure</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VGG(
+  (features): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (3): ReLU(inplace=True)
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (5): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (6): ReLU(inplace=True)
+    (7): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (8): ReLU(inplace=True)
+    (9): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (10): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (11): ReLU(inplace=True)
+    (12): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (13): ReLU(inplace=True)
+    (14): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (15): ReLU(inplace=True)
+    (16): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (17): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (18): ReLU(inplace=True)
+    (19): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (20): ReLU(inplace=True)
+    (21): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (22): ReLU(inplace=True)
+    (23): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (24): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (25): ReLU(inplace=True)
+    (26): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (27): ReLU(inplace=True)
+    (28): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (29): ReLU(inplace=True)
+    (30): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(7, 7))
+  (classifier): Sequential(
+    (0): Linear(in_features=25088, out_features=4096, bias=True)
+    (1): ReLU(inplace=True)
+    (2): Dropout(p=0.5, inplace=False)
+    (3): Linear(in_features=4096, out_features=4096, bias=True)
+    (4): ReLU(inplace=True)
+    (5): Dropout(p=0.5, inplace=False)
+    (6): Linear(in_features=4096, out_features=1000, bias=True)
+  )
+)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>可以看到有三個 block: <code class="docutils literal notranslate"><span class="pre">features</span></code>, <code class="docutils literal notranslate"><span class="pre">avgpool</span></code>, <code class="docutils literal notranslate"><span class="pre">classifier</span></code></p></li>
+<li><p>幾種探索 structure 時常用的招</p></li>
+</ul>
+<section id="layer-shape">
+<h3><span class="section-number">2.2.1. </span>看個 layer 的 shape<a class="headerlink" href="#layer-shape" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>summary(model, (1,3,224,224))
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==========================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #
+==========================================================================================
+VGG                                      [1, 1000]                 --
+├─Sequential: 1-1                        [1, 512, 7, 7]            --
+│    └─Conv2d: 2-1                       [1, 64, 224, 224]         1,792
+│    └─ReLU: 2-2                         [1, 64, 224, 224]         --
+│    └─Conv2d: 2-3                       [1, 64, 224, 224]         36,928
+│    └─ReLU: 2-4                         [1, 64, 224, 224]         --
+│    └─MaxPool2d: 2-5                    [1, 64, 112, 112]         --
+│    └─Conv2d: 2-6                       [1, 128, 112, 112]        73,856
+│    └─ReLU: 2-7                         [1, 128, 112, 112]        --
+│    └─Conv2d: 2-8                       [1, 128, 112, 112]        147,584
+│    └─ReLU: 2-9                         [1, 128, 112, 112]        --
+│    └─MaxPool2d: 2-10                   [1, 128, 56, 56]          --
+│    └─Conv2d: 2-11                      [1, 256, 56, 56]          295,168
+│    └─ReLU: 2-12                        [1, 256, 56, 56]          --
+│    └─Conv2d: 2-13                      [1, 256, 56, 56]          590,080
+│    └─ReLU: 2-14                        [1, 256, 56, 56]          --
+│    └─Conv2d: 2-15                      [1, 256, 56, 56]          590,080
+│    └─ReLU: 2-16                        [1, 256, 56, 56]          --
+│    └─MaxPool2d: 2-17                   [1, 256, 28, 28]          --
+│    └─Conv2d: 2-18                      [1, 512, 28, 28]          1,180,160
+│    └─ReLU: 2-19                        [1, 512, 28, 28]          --
+│    └─Conv2d: 2-20                      [1, 512, 28, 28]          2,359,808
+│    └─ReLU: 2-21                        [1, 512, 28, 28]          --
+│    └─Conv2d: 2-22                      [1, 512, 28, 28]          2,359,808
+│    └─ReLU: 2-23                        [1, 512, 28, 28]          --
+│    └─MaxPool2d: 2-24                   [1, 512, 14, 14]          --
+│    └─Conv2d: 2-25                      [1, 512, 14, 14]          2,359,808
+│    └─ReLU: 2-26                        [1, 512, 14, 14]          --
+│    └─Conv2d: 2-27                      [1, 512, 14, 14]          2,359,808
+│    └─ReLU: 2-28                        [1, 512, 14, 14]          --
+│    └─Conv2d: 2-29                      [1, 512, 14, 14]          2,359,808
+│    └─ReLU: 2-30                        [1, 512, 14, 14]          --
+│    └─MaxPool2d: 2-31                   [1, 512, 7, 7]            --
+├─AdaptiveAvgPool2d: 1-2                 [1, 512, 7, 7]            --
+├─Sequential: 1-3                        [1, 1000]                 --
+│    └─Linear: 2-32                      [1, 4096]                 102,764,544
+│    └─ReLU: 2-33                        [1, 4096]                 --
+│    └─Dropout: 2-34                     [1, 4096]                 --
+│    └─Linear: 2-35                      [1, 4096]                 16,781,312
+│    └─ReLU: 2-36                        [1, 4096]                 --
+│    └─Dropout: 2-37                     [1, 4096]                 --
+│    └─Linear: 2-38                      [1, 1000]                 4,097,000
+==========================================================================================
+Total params: 138,357,544
+Trainable params: 138,357,544
+Non-trainable params: 0
+Total mult-adds (G): 15.48
+==========================================================================================
+Input size (MB): 0.60
+Forward/backward pass size (MB): 108.45
+Params size (MB): 553.43
+Estimated Total Size (MB): 662.49
+==========================================================================================
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>可以看到</p>
+<ul>
+<li><p>一開始的輸入是 (3,224,224)</p></li>
+<li><p>第一個 vgg bloc 的結果，是 (64,112,112)，也就是高寬減半，然後通道數增加</p></li>
+<li><p>再來各 vgg block，就都在做高寬減半，通道數翻倍，所以變成 (128, 56, 56) -&gt; (256, 28, 28) -&gt; (512, 14, 14) -&gt; (512, 7, 7)</p></li>
+<li><p>最終，提取完的 feature map，就是 (512, 7, 7) ，這個 shape 要背一下。</p></li>
+<li><p>AdaptiveAvgPool2d，是你給他你希望的 output shape，然後 pooling 的 size 和 stride 他自動幫你算。所以這邊只是買個保險，希望 output shape 是 (512, 7, 7)，請 AdaptiveAvgPool2d 幫我把每一個 channel，都 max pooling 成 (7, 7)。但其實我本來最後一步就已經是 (512, 7, 7)，所以這邊不作為</p></li>
+<li><p>再來進到分類的 block 後，就是把 (512, 7, 7) 的 feature map，flatten 成 512<em>7</em>7，然後接個 fully connected layer，先降到 4096, 再降到最終的目標 1000 類</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="layer">
+<h3><span class="section-number">2.2.2. </span>看 layer 的細節<a class="headerlink" href="#layer" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.modules
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;bound method Module.modules of VGG(
+  (features): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (3): ReLU(inplace=True)
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (5): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (6): ReLU(inplace=True)
+    (7): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (8): ReLU(inplace=True)
+    (9): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (10): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (11): ReLU(inplace=True)
+    (12): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (13): ReLU(inplace=True)
+    (14): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (15): ReLU(inplace=True)
+    (16): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (17): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (18): ReLU(inplace=True)
+    (19): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (20): ReLU(inplace=True)
+    (21): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (22): ReLU(inplace=True)
+    (23): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (24): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (25): ReLU(inplace=True)
+    (26): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (27): ReLU(inplace=True)
+    (28): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (29): ReLU(inplace=True)
+    (30): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(7, 7))
+  (classifier): Sequential(
+    (0): Linear(in_features=25088, out_features=4096, bias=True)
+    (1): ReLU(inplace=True)
+    (2): Dropout(p=0.5, inplace=False)
+    (3): Linear(in_features=4096, out_features=4096, bias=True)
+    (4): ReLU(inplace=True)
+    (5): Dropout(p=0.5, inplace=False)
+    (6): Linear(in_features=4096, out_features=2, bias=True)
+  )
+)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="model-children">
+<h3><span class="section-number">2.2.3. </span>看 model 的 children<a class="headerlink" href="#model-children" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.named_children()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object Module.named_children at 0x7f7e7ea0b2e0&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for n, c in model.named_children():
+    print(n)
+    print(c)
+    print(&quot;-------------&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>features
+Sequential(
+  (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (1): ReLU(inplace=True)
+  (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (3): ReLU(inplace=True)
+  (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (5): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (6): ReLU(inplace=True)
+  (7): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (8): ReLU(inplace=True)
+  (9): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (10): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (11): ReLU(inplace=True)
+  (12): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (13): ReLU(inplace=True)
+  (14): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (15): ReLU(inplace=True)
+  (16): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (17): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (18): ReLU(inplace=True)
+  (19): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (20): ReLU(inplace=True)
+  (21): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (22): ReLU(inplace=True)
+  (23): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (24): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (25): ReLU(inplace=True)
+  (26): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (27): ReLU(inplace=True)
+  (28): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (29): ReLU(inplace=True)
+  (30): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+)
+-------------
+avgpool
+AdaptiveAvgPool2d(output_size=(7, 7))
+-------------
+classifier
+Sequential(
+  (0): Linear(in_features=25088, out_features=4096, bias=True)
+  (1): ReLU(inplace=True)
+  (2): Dropout(p=0.5, inplace=False)
+  (3): Linear(in_features=4096, out_features=4096, bias=True)
+  (4): ReLU(inplace=True)
+  (5): Dropout(p=0.5, inplace=False)
+  (6): Linear(in_features=4096, out_features=2, bias=True)
+)
+-------------
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="children">
+<h3><span class="section-number">2.2.4. </span>取其中一個 children 出來<a class="headerlink" href="#children" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>就直接抓就好</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 抓整個 block
+model.classifier
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sequential(
+  (0): Linear(in_features=25088, out_features=4096, bias=True)
+  (1): ReLU(inplace=True)
+  (2): Dropout(p=0.5, inplace=False)
+  (3): Linear(in_features=4096, out_features=4096, bias=True)
+  (4): ReLU(inplace=True)
+  (5): Dropout(p=0.5, inplace=False)
+  (6): Linear(in_features=4096, out_features=1000, bias=True)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 抓某個 layer
+model.classifier[-1]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Linear(in_features=4096, out_features=1000, bias=True)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id1">
+<h3><span class="section-number">2.2.5. </span>查某一個 layer 的屬性<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>例如最常見的，我想查最後一個 layer 的 input dim, 和 output dim，那就：</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.classifier[-1].in_features
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4096
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.classifier[-1].out_features
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id2">
+<h3><span class="section-number">2.2.6. </span>替換某一個 layer<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>例如，我想替換掉最後一個 layer, 我現在想做的分類只有 2 類</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>in_feature = model.classifier[-1].in_features # 4096
+out_class = 2
+model.classifier[-1] = nn.Linear(in_feature, out_class)
+
+# 看一下結果
+model.classifier[-1]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Linear(in_features=4096, out_features=2, bias=True)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="k-children-model">
+<h3><span class="section-number">2.2.7. </span>取前 k 個 children 組成新 model<a class="headerlink" href="#k-children-model" title="Permalink to this heading">#</a></h3>
+<section id="id3">
+<h4><span class="section-number">2.2.7.1. </span>窮舉法 (直觀但慢)<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>我如果想做 feature extraction, 那我只需要取 vgg 中的 <code class="docutils literal notranslate"><span class="pre">feature</span></code> 和 <code class="docutils literal notranslate"><span class="pre">avgpool</span></code> 兩個 block 就好</p></li>
+<li><p>那我可以這樣做：</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>vgg_feature_extraction = nn.Sequential()
+vgg_feature_extraction.add_module(&quot;features&quot;, model.features)
+vgg_feature_extraction.add_module(&quot;avgpool&quot;, model.avgpool)
+
+vgg_feature_extraction
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sequential(
+  (features): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (3): ReLU(inplace=True)
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (5): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (6): ReLU(inplace=True)
+    (7): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (8): ReLU(inplace=True)
+    (9): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (10): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (11): ReLU(inplace=True)
+    (12): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (13): ReLU(inplace=True)
+    (14): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (15): ReLU(inplace=True)
+    (16): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (17): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (18): ReLU(inplace=True)
+    (19): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (20): ReLU(inplace=True)
+    (21): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (22): ReLU(inplace=True)
+    (23): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (24): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (25): ReLU(inplace=True)
+    (26): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (27): ReLU(inplace=True)
+    (28): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (29): ReLU(inplace=True)
+    (30): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(7, 7))
+)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="for">
+<h3><span class="section-number">2.2.8. </span>for 迴圈找到停<a class="headerlink" href="#for" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>剛剛的作法雖然直觀，但太慢了，如果今天你有 30 個 block 要加，那不就寫死</p></li>
+<li><p>所以，較好的作法，是用回圈找到停</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>net = nn.Sequential()
+for name, block in model.named_children():
+    net.add_module(name, block)
+    if name == &quot;avgpool&quot;:
+        break
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>net
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sequential(
+  (features): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (3): ReLU(inplace=True)
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (5): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (6): ReLU(inplace=True)
+    (7): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (8): ReLU(inplace=True)
+    (9): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (10): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (11): ReLU(inplace=True)
+    (12): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (13): ReLU(inplace=True)
+    (14): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (15): ReLU(inplace=True)
+    (16): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (17): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (18): ReLU(inplace=True)
+    (19): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (20): ReLU(inplace=True)
+    (21): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (22): ReLU(inplace=True)
+    (23): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (24): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (25): ReLU(inplace=True)
+    (26): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (27): ReLU(inplace=True)
+    (28): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (29): ReLU(inplace=True)
+    (30): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(7, 7))
+)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2><span class="section-number">2.3. </span>直接用來預測<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<section id="input-image">
+<h3><span class="section-number">2.3.1. </span>input image<a class="headerlink" href="#input-image" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>filename = &#39;images_test/cat.jpg&#39;
+input_image = Image.open(filename)
+input_image
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/496eb1921a9bb3c8632d16512cb807e899eb6e4d23d13f086e012792abf40d27.png" src="../../_images/496eb1921a9bb3c8632d16512cb807e899eb6e4d23d13f086e012792abf40d27.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>input_tensor = imagenet_preprocess(input_image)
+input_batch = input_tensor.unsqueeze(0) # 增加一維(筆數)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(input_tensor.shape)
+print(input_tensor.dtype)
+print(input_tensor.min())
+print(input_tensor.max())
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([3, 224, 224])
+torch.float32
+tensor(-2.1179)
+tensor(2.6400)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="model">
+<h3><span class="section-number">2.3.2. </span>model<a class="headerlink" href="#model" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = vgg16(pretrained=True)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="predict">
+<h3><span class="section-number">2.3.3. </span>predict<a class="headerlink" href="#predict" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.eval()
+with torch.no_grad():
+    model = model.to(device)
+    input_batch = input_batch.to(device)
+    
+    output = model(input_batch)
+
+# 轉成機率
+probabilities = torch.nn.functional.softmax(output[0], dim=0)
+max_item = torch.argmax(probabilities).item()
+print(f&#39;{max_item} {categories[max_item]}: {torch.max(probabilities).item()}&#39;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>285 Egyptian cat: 0.6240771412849426
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2><span class="section-number">2.4. </span>用來擷取特徵並做相似度搜尋<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<section id="id6">
+<h3><span class="section-number">2.4.1. </span>model<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model = vgg16(pretrained=True)
+
+vgg_feature_extractor = nn.Sequential()
+for name, block in model.named_children():
+    vgg_feature_extractor.add_module(name, block)
+    if name == &quot;avgpool&quot;:
+        break
+vgg_feature_extractor.add_module(&quot;flatten&quot;, nn.Flatten())
+vgg_feature_extractor
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sequential(
+  (features): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU(inplace=True)
+    (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (3): ReLU(inplace=True)
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (5): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (6): ReLU(inplace=True)
+    (7): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (8): ReLU(inplace=True)
+    (9): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (10): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (11): ReLU(inplace=True)
+    (12): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (13): ReLU(inplace=True)
+    (14): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (15): ReLU(inplace=True)
+    (16): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (17): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (18): ReLU(inplace=True)
+    (19): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (20): ReLU(inplace=True)
+    (21): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (22): ReLU(inplace=True)
+    (23): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (24): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (25): ReLU(inplace=True)
+    (26): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (27): ReLU(inplace=True)
+    (28): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (29): ReLU(inplace=True)
+    (30): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(7, 7))
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>看一下 output 的 feature map 的 shape</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>summary(vgg_feature_extractor, (1,3,244,244))
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==========================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #
+==========================================================================================
+Sequential                               [1, 25088]                --
+├─Sequential: 1-1                        [1, 512, 7, 7]            --
+│    └─Conv2d: 2-1                       [1, 64, 244, 244]         1,792
+│    └─ReLU: 2-2                         [1, 64, 244, 244]         --
+│    └─Conv2d: 2-3                       [1, 64, 244, 244]         36,928
+│    └─ReLU: 2-4                         [1, 64, 244, 244]         --
+│    └─MaxPool2d: 2-5                    [1, 64, 122, 122]         --
+│    └─Conv2d: 2-6                       [1, 128, 122, 122]        73,856
+│    └─ReLU: 2-7                         [1, 128, 122, 122]        --
+│    └─Conv2d: 2-8                       [1, 128, 122, 122]        147,584
+│    └─ReLU: 2-9                         [1, 128, 122, 122]        --
+│    └─MaxPool2d: 2-10                   [1, 128, 61, 61]          --
+│    └─Conv2d: 2-11                      [1, 256, 61, 61]          295,168
+│    └─ReLU: 2-12                        [1, 256, 61, 61]          --
+│    └─Conv2d: 2-13                      [1, 256, 61, 61]          590,080
+│    └─ReLU: 2-14                        [1, 256, 61, 61]          --
+│    └─Conv2d: 2-15                      [1, 256, 61, 61]          590,080
+│    └─ReLU: 2-16                        [1, 256, 61, 61]          --
+│    └─MaxPool2d: 2-17                   [1, 256, 30, 30]          --
+│    └─Conv2d: 2-18                      [1, 512, 30, 30]          1,180,160
+│    └─ReLU: 2-19                        [1, 512, 30, 30]          --
+│    └─Conv2d: 2-20                      [1, 512, 30, 30]          2,359,808
+│    └─ReLU: 2-21                        [1, 512, 30, 30]          --
+│    └─Conv2d: 2-22                      [1, 512, 30, 30]          2,359,808
+│    └─ReLU: 2-23                        [1, 512, 30, 30]          --
+│    └─MaxPool2d: 2-24                   [1, 512, 15, 15]          --
+│    └─Conv2d: 2-25                      [1, 512, 15, 15]          2,359,808
+│    └─ReLU: 2-26                        [1, 512, 15, 15]          --
+│    └─Conv2d: 2-27                      [1, 512, 15, 15]          2,359,808
+│    └─ReLU: 2-28                        [1, 512, 15, 15]          --
+│    └─Conv2d: 2-29                      [1, 512, 15, 15]          2,359,808
+│    └─ReLU: 2-30                        [1, 512, 15, 15]          --
+│    └─MaxPool2d: 2-31                   [1, 512, 7, 7]            --
+├─AdaptiveAvgPool2d: 1-2                 [1, 512, 7, 7]            --
+├─Flatten: 1-3                           [1, 25088]                --
+==========================================================================================
+Total params: 14,714,688
+Trainable params: 14,714,688
+Non-trainable params: 0
+Total mult-adds (G): 17.99
+==========================================================================================
+Input size (MB): 0.71
+Forward/backward pass size (MB): 128.13
+Params size (MB): 58.86
+Estimated Total Size (MB): 187.71
+==========================================================================================
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>最終，input一張圖，output 出 25088 維的向量</p></li>
+</ul>
+</section>
+<section id="images">
+<h3><span class="section-number">2.4.2. </span>images<a class="headerlink" href="#images" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import glob
+abs_path_list = glob.glob(&quot;images_test/*&quot;)
+filename_list = [i.split(&quot;/&quot;)[-1].replace(&quot;.jpg&quot;, &quot;&quot;) for i in abs_path_list]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>X = torch.tensor([])
+for abs_path, filename in zip(abs_path_list, filename_list):
+    input_image = Image.open(abs_path)
+    input_tensor = imagenet_preprocess(input_image, True)
+    input_batch = input_tensor.unsqueeze(0) # 增加一維(筆數)
+    if len(X.shape) == 1:
+        # print(input_batch.shape)
+        X = input_batch
+    else:
+        # print(input_batch.shape)
+        X = torch.cat((X, input_batch), dim=0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>X.shape
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([22, 3, 224, 224])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>aa = make_grid(X, nrow = 5, padding = 10)
+plt.imshow(aa.permute(1, 2, 0));
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+</pre></div>
+</div>
+<img alt="../../_images/8af94e9ddefa7ad963b88c66fd253b7db900c962d7b53c326eee972c7d3f3e29.png" src="../../_images/8af94e9ddefa7ad963b88c66fd253b7db900c962d7b53c326eee972c7d3f3e29.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(filename_list)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;lion2&#39;, &#39;elephant&#39;, &#39;tiger1&#39;, &#39;panda2&#39;, &#39;astronaut&#39;, &#39;owl&#39;, &#39;peacock&#39;, &#39;daisy2&#39;, &#39;rose.png&#39;, &#39;bird2&#39;, &#39;panda1&#39;, &#39;elephant2&#39;, &#39;panda3&#39;, &#39;tiger3&#39;, &#39;rose2&#39;, &#39;toucan&#39;, &#39;bird&#39;, &#39;cat&#39;, &#39;daisy1&#39;, &#39;deer&#39;, &#39;tiger2&#39;, &#39;lion1&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="feature-extraction">
+<h3><span class="section-number">2.4.3. </span>feature extraction<a class="headerlink" href="#feature-extraction" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>model.eval()
+with torch.no_grad():
+    X = X.to(device)
+    vgg_feature_extractor = vgg_feature_extractor.to(device)
+    features = vgg_feature_extractor(X)
+features.shape
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([22, 25088])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h3><span class="section-number">2.4.4. </span>相似度<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>假設我今天的 query image 是 <code class="docutils literal notranslate"><span class="pre">tiger2.jpg</span></code>, 位於檔名list的倒數第二個</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>index = -2
+plt.imshow(X[index].permute(1,2,0).cpu());
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+</pre></div>
+</div>
+<img alt="../../_images/ff4713db78ae20b3391e9de357c6f5c54cecff0926ed2e313c233c96cef92dc7.png" src="../../_images/ff4713db78ae20b3391e9de357c6f5c54cecff0926ed2e313c233c96cef92dc7.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>我想找找看，剛剛這 22 張圖中，哪個跟這張最像</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sklearn.metrics.pairwise import cosine_similarity
+
+features = features.cpu()
+
+# Tiger2.jpg 的 embedding
+tiger2_features = features[index:index+1] # shape = (1, 25088)
+
+# 排除 Tiger2.jpg 的其他圖檔特徵向量
+other_features = np.concatenate((features[:index], features[index+1:])) # shape = (21, 25088)
+
+# 使用 cosine_similarity 計算 Cosine 函數
+similar_list = cosine_similarity(tiger2_features, other_features, dense_output=False)
+
+# 顯示相似度，由大排到小
+print(np.sort(similar_list[0])[::-1])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.28911448 0.2833877  0.23362058 0.18441463 0.17196864 0.16713578
+ 0.15425096 0.14983653 0.12871675 0.11995045 0.11563288 0.10740419
+ 0.09983708 0.09405131 0.08491085 0.0814926  0.08096121 0.07209587
+ 0.06599609 0.06320851 0.04436906]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 依相似度，由大排到小，顯示檔名
+image_files2 = np.delete(filename_list, index)
+image_files2[np.argsort(similar_list[0])[::-1]]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;tiger1&#39;, &#39;tiger3&#39;, &#39;lion1&#39;, &#39;lion2&#39;, &#39;elephant2&#39;, &#39;cat&#39;, &#39;owl&#39;,
+       &#39;elephant&#39;, &#39;panda1&#39;, &#39;bird2&#39;, &#39;panda3&#39;, &#39;bird&#39;, &#39;panda2&#39;, &#39;deer&#39;,
+       &#39;daisy2&#39;, &#39;rose.png&#39;, &#39;rose2&#39;, &#39;toucan&#39;, &#39;astronaut&#39;, &#39;peacock&#39;,
+       &#39;daisy1&#39;], dtype=&#39;&lt;U9&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>果然和他最像的，是 tiger1, 再來是 tiger3。 not bad!</p></li>
+</ul>
+</section>
+</section>
+<section id="transfer-learning">
+<h2><span class="section-number">2.5. </span>transfer learning<a class="headerlink" href="#transfer-learning" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>m = nn.BatchNorm2d(1)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tt = torch.randn(2, 1, 2, 2)
+tt
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[[ 1.4064, -0.0594],
+          [-0.3179, -1.2782]]],
+
+
+        [[[-1.5360, -0.3562],
+          [-1.4093, -1.8193]]]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>m(tt)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[[ 2.0915,  0.6159],
+          [ 0.3556, -0.6110]]],
+
+
+        [[[-0.8706,  0.3172],
+          [-0.7430, -1.1557]]]], grad_fn=&lt;NativeBatchNormBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>(tt[0,0] - tt[0,0].mean())/tt[0,0].std()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[ 1.3223,  0.0026],
+        [-0.2302, -1.0947]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tt[0,0].std()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(1.1107)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dir(m)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;T_destination&#39;,
+ &#39;__annotations__&#39;,
+ &#39;__call__&#39;,
+ &#39;__class__&#39;,
+ &#39;__constants__&#39;,
+ &#39;__delattr__&#39;,
+ &#39;__dict__&#39;,
+ &#39;__dir__&#39;,
+ &#39;__doc__&#39;,
+ &#39;__eq__&#39;,
+ &#39;__format__&#39;,
+ &#39;__ge__&#39;,
+ &#39;__getattr__&#39;,
+ &#39;__getattribute__&#39;,
+ &#39;__gt__&#39;,
+ &#39;__hash__&#39;,
+ &#39;__init__&#39;,
+ &#39;__init_subclass__&#39;,
+ &#39;__le__&#39;,
+ &#39;__lt__&#39;,
+ &#39;__module__&#39;,
+ &#39;__ne__&#39;,
+ &#39;__new__&#39;,
+ &#39;__reduce__&#39;,
+ &#39;__reduce_ex__&#39;,
+ &#39;__repr__&#39;,
+ &#39;__setattr__&#39;,
+ &#39;__setstate__&#39;,
+ &#39;__sizeof__&#39;,
+ &#39;__str__&#39;,
+ &#39;__subclasshook__&#39;,
+ &#39;__weakref__&#39;,
+ &#39;_apply&#39;,
+ &#39;_backward_hooks&#39;,
+ &#39;_buffers&#39;,
+ &#39;_call_impl&#39;,
+ &#39;_check_input_dim&#39;,
+ &#39;_forward_hooks&#39;,
+ &#39;_forward_pre_hooks&#39;,
+ &#39;_get_backward_hooks&#39;,
+ &#39;_get_name&#39;,
+ &#39;_is_full_backward_hook&#39;,
+ &#39;_load_from_state_dict&#39;,
+ &#39;_load_state_dict_post_hooks&#39;,
+ &#39;_load_state_dict_pre_hooks&#39;,
+ &#39;_maybe_warn_non_full_backward_hook&#39;,
+ &#39;_modules&#39;,
+ &#39;_named_members&#39;,
+ &#39;_non_persistent_buffers_set&#39;,
+ &#39;_parameters&#39;,
+ &#39;_register_load_state_dict_pre_hook&#39;,
+ &#39;_register_state_dict_hook&#39;,
+ &#39;_replicate_for_data_parallel&#39;,
+ &#39;_save_to_state_dict&#39;,
+ &#39;_slow_forward&#39;,
+ &#39;_state_dict_hooks&#39;,
+ &#39;_version&#39;,
+ &#39;add_module&#39;,
+ &#39;affine&#39;,
+ &#39;apply&#39;,
+ &#39;bfloat16&#39;,
+ &#39;bias&#39;,
+ &#39;buffers&#39;,
+ &#39;children&#39;,
+ &#39;cpu&#39;,
+ &#39;cuda&#39;,
+ &#39;double&#39;,
+ &#39;dump_patches&#39;,
+ &#39;eps&#39;,
+ &#39;eval&#39;,
+ &#39;extra_repr&#39;,
+ &#39;float&#39;,
+ &#39;forward&#39;,
+ &#39;get_buffer&#39;,
+ &#39;get_extra_state&#39;,
+ &#39;get_parameter&#39;,
+ &#39;get_submodule&#39;,
+ &#39;half&#39;,
+ &#39;ipu&#39;,
+ &#39;load_state_dict&#39;,
+ &#39;modules&#39;,
+ &#39;momentum&#39;,
+ &#39;named_buffers&#39;,
+ &#39;named_children&#39;,
+ &#39;named_modules&#39;,
+ &#39;named_parameters&#39;,
+ &#39;num_batches_tracked&#39;,
+ &#39;num_features&#39;,
+ &#39;parameters&#39;,
+ &#39;register_backward_hook&#39;,
+ &#39;register_buffer&#39;,
+ &#39;register_forward_hook&#39;,
+ &#39;register_forward_pre_hook&#39;,
+ &#39;register_full_backward_hook&#39;,
+ &#39;register_load_state_dict_post_hook&#39;,
+ &#39;register_module&#39;,
+ &#39;register_parameter&#39;,
+ &#39;requires_grad_&#39;,
+ &#39;reset_parameters&#39;,
+ &#39;reset_running_stats&#39;,
+ &#39;running_mean&#39;,
+ &#39;running_var&#39;,
+ &#39;set_extra_state&#39;,
+ &#39;share_memory&#39;,
+ &#39;state_dict&#39;,
+ &#39;to&#39;,
+ &#39;to_empty&#39;,
+ &#39;track_running_stats&#39;,
+ &#39;train&#39;,
+ &#39;training&#39;,
+ &#39;type&#39;,
+ &#39;weight&#39;,
+ &#39;xpu&#39;,
+ &#39;zero_grad&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>m.running_mean
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-0.0671])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>m.weight
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Parameter containing:
+tensor([1.], requires_grad=True)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "py39"
+        },
+        kernelOptions: {
+            name: "py39",
+            path: "./classical_network/vgg"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'py39'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../cheatsheet/pytorch_cheatsheet.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Pytorch Cheatsheet</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../resnet/resnet.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Resnet</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imagenet-utils">2.1. Imagenet utils</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-pretrained-model-explore-structure">2.2. import pretrained model &amp; explore structure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer-shape">2.2.1. 看個 layer 的 shape</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer">2.2.2. 看 layer 的細節</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-children">2.2.3. 看 model 的 children</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#children">2.2.4. 取其中一個 children 出來</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.2.5. 查某一個 layer 的屬性</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.2.6. 替換某一個 layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-children-model">2.2.7. 取前 k 個 children 組成新 model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.2.7.1. 窮舉法 (直觀但慢)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for">2.2.8. for 迴圈找到停</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.3. 直接用來預測</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-image">2.3.1. input image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model">2.3.2. model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predict">2.3.3. predict</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2.4. 用來擷取特徵並做相似度搜尋</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">2.4.1. model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#images">2.4.2. images</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-extraction">2.4.3. feature extraction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">2.4.4. 相似度</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-learning">2.5. transfer learning</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

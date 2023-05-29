@@ -1,0 +1,1078 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Vision Transformer &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'classical_network/vision_transformer/vit';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">My sample book</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Cheat Sheet</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cheatsheet/pytorch_cheatsheet.html">1. Pytorch Cheatsheet</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Classical Network</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../vgg/vgg16.html">2. VGG16</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resnet/resnet.html">3. Resnet</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fclassical_network/vision_transformer/vit.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/classical_network/vision_transformer/vit.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Vision Transformer</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pretrained-model">Pretrained model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-model">import model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">改最後一層就好</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-data">Get data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loader">Data loader</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training">training</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#save">save</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="vision-transformer">
+<h1>Vision Transformer<a class="headerlink" href="#vision-transformer" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
+
+import torch
+from torch import nn
+
+import torchvision
+
+
+
+from going_modular.going_modular import data_setup, engine
+from helper_functions import download_data, set_seeds, plot_loss_curves
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>device = &quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<section id="pretrained-model">
+<h2>Pretrained model<a class="headerlink" href="#pretrained-model" title="Permalink to this heading">#</a></h2>
+<section id="import-model">
+<h3>import model<a class="headerlink" href="#import-model" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>搜尋 pytorch vision_transformer pretrained, 就可以找到 torchvision 有 pretrained model</p></li>
+<li><p><a class="reference external" href="https://pytorch.org/vision/main/models/vision_transformer.html">https://pytorch.org/vision/main/models/vision_transformer.html</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># requires torchvision &gt;= 0.13, &quot;DEFAULT&quot; means best available
+pretrained_vit_weights = torchvision.models.ViT_B_16_Weights.DEFAULT
+
+# 2. Setup a ViT model instance with pretrained weights
+pretrained_vit = torchvision.models.vit_b_16(weights=pretrained_vit_weights)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pretrained_vit
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VisionTransformer(
+  (conv_proj): Conv2d(3, 768, kernel_size=(16, 16), stride=(16, 16))
+  (encoder): Encoder(
+    (dropout): Dropout(p=0.0, inplace=False)
+    (layers): Sequential(
+      (encoder_layer_0): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (encoder_layer_1): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (encoder_layer_2): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (encoder_layer_3): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (encoder_layer_4): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (encoder_layer_5): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (encoder_layer_6): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (encoder_layer_7): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (encoder_layer_8): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (encoder_layer_9): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (encoder_layer_10): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+      (encoder_layer_11): EncoderBlock(
+        (ln_1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (self_attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+        )
+        (dropout): Dropout(p=0.0, inplace=False)
+        (ln_2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+        (mlp): MLPBlock(
+          (0): Linear(in_features=768, out_features=3072, bias=True)
+          (1): GELU(approximate=none)
+          (2): Dropout(p=0.0, inplace=False)
+          (3): Linear(in_features=3072, out_features=768, bias=True)
+          (4): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+    (ln): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+  )
+  (heads): Sequential(
+    (head): Linear(in_features=768, out_features=1000, bias=True)
+  )
+)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id1">
+<h3>改最後一層就好<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 3. Freeze the base parameters
+# for parameter in pretrained_vit.parameters():
+#     parameter.requires_grad = False
+    
+# 4. Change the classifier head (set the seeds to ensure same initialization with linear head)
+set_seeds()
+pretrained_vit.heads = nn.Linear(in_features=768, out_features=len(class_names)).to(device)
+# pretrained_vit # uncomment for model output
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="get-data">
+<h3>Get data<a class="headerlink" href="#get-data" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># from helper_functions import download_data
+
+# # Download pizza, steak, sushi images from GitHub
+# image_path = download_data(source=&quot;https://github.com/mrdbourke/pytorch-deep-learning/raw/main/data/pizza_steak_sushi.zip&quot;,
+#                            destination=&quot;pizza_steak_sushi&quot;)
+# image_path
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Setup train and test directory paths
+train_dir = &quot;data/pizza_steak_sushi/train&quot;
+test_dir = &quot;data/pizza_steak_sushi/test&quot; 
+train_dir, test_dir
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;data/pizza_steak_sushi/train&#39;, &#39;data/pizza_steak_sushi/test&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-loader">
+<h3>Data loader<a class="headerlink" href="#data-loader" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get automatic transforms from pretrained ViT weights
+pretrained_vit_transforms = pretrained_vit_weights.transforms()
+print(pretrained_vit_transforms)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ImageClassification(
+    crop_size=[224]
+    resize_size=[256]
+    mean=[0.485, 0.456, 0.406]
+    std=[0.229, 0.224, 0.225]
+    interpolation=InterpolationMode.BILINEAR
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Setup dataloaders
+train_dataloader_pretrained, test_dataloader_pretrained, class_names = data_setup.create_dataloaders(train_dir=train_dir,
+                                            test_dir=test_dir,
+                                            transform=pretrained_vit_transforms,
+                                            batch_size=32) 
+# Could increase if we had more samples, such as here: https://arxiv.org/abs/2205.01580 (there are other improvements there too...)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>看一下 image</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get a batch of images
+image_batch, label_batch = next(iter(train_dataloader_pretrained))
+
+# Get a single image from the batch
+image, label = image_batch[0], label_batch[0]
+
+# View the batch shapes
+print(image.shape)
+print(image.max())
+print(image.min())
+print(label)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([3, 224, 224])
+tensor(2.0948)
+tensor(-1.9832)
+tensor(2)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>可以看到，transform 將影像轉成 tensor (0 到 1 float) 後，又減去 custom mean 和 除上 custom sd, 使得現在影像是介於 -2~2 之間.</p></li>
+<li><p>這對於訓練來說是 ok 的 (因為當初 pretrained 就是餵這個 range 進去;  而且對 NN 來說，只要數字就好，他才不 care 一定要 0~1 float).</p></li>
+<li><p>但對於 show 圖就很麻煩，所以寫個 function 來 show 圖</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def show_torch_img(torch_obj, label):
+    
+    custom_mean = torch.tensor([[[0.485]], [[0.456]], [[0.406]]])
+    custom_sd = torch.tensor([[[0.229]], [[0.224]], [[0.225]]])
+    image = torch_obj*custom_sd + custom_mean
+    
+    # Plot image with matplotlib
+    plt.imshow(image.permute(1, 2, 0)) # rearrange image dimensions to suit matplotlib [color_channels, height, width] -&gt; [height, width, color_channels]
+    plt.title(class_names[label])
+    plt.axis(False);
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>show_torch_img(image, label)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/296c65dc1fd8d8134ceae75c049da4e0730694c539c5c1062743779a648642c8.png" src="../../_images/296c65dc1fd8d8134ceae75c049da4e0730694c539c5c1062743779a648642c8.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>image.shape
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([3, 224, 224])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training">
+<h3>training<a class="headerlink" href="#training" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from going_modular.going_modular import engine
+
+# Create optimizer and loss function
+optimizer = torch.optim.Adam(params=pretrained_vit.parameters(), lr=1e-4)
+loss_fn = torch.nn.CrossEntropyLoss()
+
+# Train the classifier head of the pretrained ViT feature extractor model
+set_seeds()
+pretrained_vit_results = engine.train(model=pretrained_vit,
+                                      train_dataloader=train_dataloader_pretrained,
+                                      test_dataloader=test_dataloader_pretrained,
+                                      optimizer=optimizer,
+                                      loss_fn=loss_fn,
+                                      epochs=10,
+                                      device=device)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|███                           | 1/10 [00:08&lt;01:18,  8.69s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 1 | train_loss: 0.8129 | train_acc: 0.6602 | test_loss: 0.4731 | test_acc: 0.8333
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|██████                        | 2/10 [00:17&lt;01:09,  8.70s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 2 | train_loss: 0.1821 | train_acc: 0.9414 | test_loss: 0.4134 | test_acc: 0.8229
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|█████████                     | 3/10 [00:26&lt;01:01,  8.73s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 3 | train_loss: 0.0303 | train_acc: 1.0000 | test_loss: 0.1580 | test_acc: 0.9375
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|████████████                  | 4/10 [00:34&lt;00:52,  8.75s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 4 | train_loss: 0.0183 | train_acc: 0.9922 | test_loss: 0.1285 | test_acc: 0.9688
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|███████████████               | 5/10 [00:43&lt;00:44,  8.81s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 5 | train_loss: 0.0050 | train_acc: 1.0000 | test_loss: 0.1730 | test_acc: 0.9479
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|██████████████████            | 6/10 [00:52&lt;00:35,  8.82s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 6 | train_loss: 0.0016 | train_acc: 1.0000 | test_loss: 0.1540 | test_acc: 0.9375
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70%|█████████████████████         | 7/10 [01:01&lt;00:26,  8.85s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 7 | train_loss: 0.0010 | train_acc: 1.0000 | test_loss: 0.1450 | test_acc: 0.9583
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|████████████████████████      | 8/10 [01:10&lt;00:17,  8.88s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 8 | train_loss: 0.0007 | train_acc: 1.0000 | test_loss: 0.1432 | test_acc: 0.9583
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 90%|███████████████████████████   | 9/10 [01:19&lt;00:08,  8.92s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 9 | train_loss: 0.0007 | train_acc: 1.0000 | test_loss: 0.1435 | test_acc: 0.9792
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████| 10/10 [01:28&lt;00:00,  8.86s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 10 | train_loss: 0.0005 | train_acc: 1.0000 | test_loss: 0.1442 | test_acc: 0.9792
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot the loss curves
+from helper_functions import plot_loss_curves
+plot_loss_curves(pretrained_vit_results) 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/fb0f18875703a9e8a20819199ba73e52ea3d53b00c579d5c109cf7cdce01f487.png" src="../../_images/fb0f18875703a9e8a20819199ba73e52ea3d53b00c579d5c109cf7cdce01f487.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>做個預測：</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>img_try = Image.open(&quot;data/pizza_steak_sushi/test/pizza/1152100.jpg&quot;)
+img_try
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ba8096fca4999ba32859b02b5b10db5319b97911dc91cdf53f7305447fc8e080.png" src="../../_images/ba8096fca4999ba32859b02b5b10db5319b97911dc91cdf53f7305447fc8e080.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>img_torch = pretrained_vit_transforms(img_try)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pred_prob = pretrained_vit(img_torch.unsqueeze(0).to(device))
+pred_prob
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[ 6.4871, -4.3674, -1.6217]], device=&#39;cuda:0&#39;,
+       grad_fn=&lt;AddmmBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class_idx = torch.argmax(pred_prob)
+class_names[class_idx]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;pizza&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="save">
+<h3>save<a class="headerlink" href="#save" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Save the model
+from going_modular.going_modular import utils
+
+utils.save_model(model=pretrained_vit,
+                 target_dir=&quot;output_save_models&quot;,
+                 model_name=&quot;08_pretrained_vit_feature_extractor_pizza_steak_sushi.pth&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[INFO] Saving model to: output_save_models/08_pretrained_vit_feature_extractor_pizza_steak_sushi.pth
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>看一下檔案有多大</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from pathlib import Path
+
+# Get the model size in bytes then convert to megabytes
+pretrained_vit_model_size = Path(&quot;output_save_models/08_pretrained_vit_feature_extractor_pizza_steak_sushi.pth&quot;).stat().st_size // (1024*1024) # division converts bytes to megabytes (roughly) 
+print(f&quot;Pretrained ViT feature extractor model size: {pretrained_vit_model_size} MB&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pretrained ViT feature extractor model size: 327 MB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "py39"
+        },
+        kernelOptions: {
+            name: "py39",
+            path: "./classical_network/vision_transformer"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'py39'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pretrained-model">Pretrained model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-model">import model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">改最後一層就好</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-data">Get data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loader">Data loader</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training">training</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#save">save</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
