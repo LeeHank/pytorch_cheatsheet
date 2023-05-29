@@ -1,0 +1,31 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+parts:
+  - caption: Cheat Sheet
+    numbered: true
+    chapters:
+      - file: cheatsheet/pytorch_cheatsheet
+  - caption: Classical Network
+    numbered: true
+    chapters:
+      - file: classical_network/vgg/vgg16
+      - file: classical_network/resnet/resnet
+  # - caption: Computer Vision
+  #   numbered: true
+  #   chapters:
+  #     - file: ch3_pandas/official_getting_started/getting_started
+  #     - file: ch3_pandas/regex
+# build book ------
+# cd mybook
+# jupyter-book build .
+# git add --all
+# git commit -m ""
+# git push
+
+# publish to github
+# pip install ghp-import
+# cd mybook
+# ghp-import -n -p -f _build/html

@@ -1,0 +1,1990 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>05. Going Modular: Part 2 (script mode) &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'classical_network/vision_transformer/going_modular/05_pytorch_going_modular_script_mode';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">My sample book</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Cheat Sheet</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/pytorch_cheatsheet.html">1. Pytorch Cheatsheet</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Classical Network</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../vgg/vgg16.html">2. VGG16</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resnet/resnet.html">3. Resnet</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fclassical_network/vision_transformer/going_modular/05_pytorch_going_modular_script_mode.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/classical_network/vision_transformer/going_modular/05_pytorch_going_modular_script_mode.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>05. Going Modular: Part 2 (script mode)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-script-mode">What is script mode?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-has-script-mode-got-to-do-with-pytorch">What has script mode got to do with PyTorch?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-in-the-wild">PyTorch in the wild</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-the-difference-between-this-notebook-part-2-and-the-cell-mode-notebook-part-1">What’s the difference between this notebook (Part 2) and the cell mode notebook (Part 1)?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-we-re-going-to-cover">What we’re going to cover</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-can-you-get-help">Where can you get help?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-folder-for-storing-python-scripts">0. Creating a folder for storing Python scripts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-data">1. Get data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-datasets-and-dataloaders">2. Create Datasets and DataLoaders</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-datasets-and-dataloaders-script-mode">2.1 Create Datasets and DataLoaders (script mode)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-a-model-tinyvgg">3. Making a model (TinyVGG)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-a-model-tinyvgg-script-mode">3.1 Making a model (TinyVGG) (script mode)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-train-step-and-test-step-functions-and-train-to-combine-them">4. Creating <code class="docutils literal notranslate"><span class="pre">train_step()</span></code> and <code class="docutils literal notranslate"><span class="pre">test_step()</span></code> functions and <code class="docutils literal notranslate"><span class="pre">train()</span></code> to combine them</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-train-step-and-test-step-functions-and-train-to-combine-them-script-mode">4.1 Creating <code class="docutils literal notranslate"><span class="pre">train_step()</span></code> and <code class="docutils literal notranslate"><span class="pre">test_step()</span></code> functions and <code class="docutils literal notranslate"><span class="pre">train()</span></code> to combine them (script mode)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-function-to-save-the-model">5. Creating a function to save the model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-function-to-save-the-model-script-mode">5.1 Creating a function to save the model (script mode)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-evaluate-and-save-the-model">6. Train, evaluate and save the model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-evaluate-and-save-the-model-script-mode">6.1 Train, evaluate and save the model (script mode)</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <p><a href="https://colab.research.google.com/github/mrdbourke/pytorch-deep-learning/blob/main/going_modular/05_pytorch_going_modular_script_mode.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
+<section class="tex2jax_ignore mathjax_ignore" id="going-modular-part-2-script-mode">
+<h1>05. Going Modular: Part 2 (script mode)<a class="headerlink" href="#going-modular-part-2-script-mode" title="Permalink to this heading">#</a></h1>
+<p>This notebook is part 2/2 of section <a class="reference external" href="https://www.learnpytorch.io/05_pytorch_going_modular/">05. Going Modular</a>.</p>
+<p>For reference, the two parts are:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://github.com/mrdbourke/pytorch-deep-learning/blob/main/going_modular/05_pytorch_going_modular_cell_mode.ipynb"><strong>05. Going Modular: Part 1 (cell mode)</strong></a> - this notebook is run as a traditional Jupyter Notebook/Google Colab notebook and is a condensed version of <a class="reference external" href="https://www.learnpytorch.io/04_pytorch_custom_datasets/">notebook 04</a>.</p></li>
+<li><p><a class="reference external" href="https://github.com/mrdbourke/pytorch-deep-learning/blob/main/going_modular/05_pytorch_going_modular_script_mode.ipynb"><strong>05. Going Modular: Part 2 (script mode)</strong></a> - this notebook is the same as number 1 but with added functionality to turn each of the major sections into Python scripts, such as, <code class="docutils literal notranslate"><span class="pre">data_setup.py</span></code> and <code class="docutils literal notranslate"><span class="pre">train.py</span></code>.</p></li>
+</ol>
+<p>Why two parts?</p>
+<p>Because sometimes the best way to learn something is to see how it <em>differs</em> from something else.</p>
+<p>If you run each notebook side-by-side you’ll see how they differ and that’s where the key learnings are.</p>
+<section id="what-is-script-mode">
+<h2>What is script mode?<a class="headerlink" href="#what-is-script-mode" title="Permalink to this heading">#</a></h2>
+<p><strong>Script mode</strong> uses <a class="reference external" href="https://ipython.readthedocs.io/en/stable/interactive/magics.html">Jupyter Notebook cell magic</a> (special commands) to turn specific cells into Python scripts.</p>
+<p>For example if you run the following code in a cell, you’ll create a Python file called <code class="docutils literal notranslate"><span class="pre">hello_world.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">writefile</span> <span class="n">hello_world</span><span class="o">.</span><span class="n">py</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello world, machine learning is fun!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You could then run this Python file on the command line with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>python hello_world.py
+
+&gt;&gt;&gt; hello world, machine learning is fun!
+</pre></div>
+</div>
+<p>The main cell magic we’re interested in using is <code class="docutils literal notranslate"><span class="pre">%%writefile</span></code>.</p>
+<p>Putting <code class="docutils literal notranslate"><span class="pre">%%writefile</span> <span class="pre">filename</span></code> at the top of a cell in Jupyter or Google Colab will write the contents of that cell to a specified <code class="docutils literal notranslate"><span class="pre">filename</span></code>.</p>
+<blockquote>
+<div><p><strong>Question:</strong> Do I have to create Python files like this? Can’t I just start directly with a Python file and skip using a Google Colab notebook?</p>
+<p><strong>Answer:</strong> Yes. This is only <em>one</em> way of creating Python scripts. If you know the kind of script you’d like to write, you could start writing it straight away. But since using Jupyter/Google Colab notebooks is a popular way of starting off data science and machine learning projects, knowing about the <code class="docutils literal notranslate"><span class="pre">%%writefile</span></code> magic command is a handy tip.</p>
+</div></blockquote>
+</section>
+<section id="what-has-script-mode-got-to-do-with-pytorch">
+<h2>What has script mode got to do with PyTorch?<a class="headerlink" href="#what-has-script-mode-got-to-do-with-pytorch" title="Permalink to this heading">#</a></h2>
+<p>If you’ve written some useful code in a Jupyter Notebook or Google Colab notebook, chances are you’ll want to use that code again.</p>
+<p>And turning your useful cells into Python scripts (<code class="docutils literal notranslate"><span class="pre">.py</span></code> files) means you can use specific pieces of your code in other projects.</p>
+<p>This practice is not PyTorch specific.</p>
+<p>But it’s how you’ll see many different online PyTorch repositories structured.</p>
+<section id="pytorch-in-the-wild">
+<h3>PyTorch in the wild<a class="headerlink" href="#pytorch-in-the-wild" title="Permalink to this heading">#</a></h3>
+<p>For example, if you find a PyTorch project on GitHub, it may be structured in the following way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>pytorch_project/
+├── pytorch_project/
+│   ├── data_setup.py
+│   ├── engine.py
+│   ├── model.py
+│   ├── train.py
+│   └── utils.py
+├── models/
+│   ├── model_1.pth
+│   └── model_2.pth
+└── data/
+    ├── data_folder_1/
+    └── data_folder_2/
+</pre></div>
+</div>
+<p>Here, the top level directory is called <code class="docutils literal notranslate"><span class="pre">pytorch_project</span></code> but you could call it whatever you want.</p>
+<p>Inside there’s another directory called <code class="docutils literal notranslate"><span class="pre">pytorch_project</span></code> which contains several <code class="docutils literal notranslate"><span class="pre">.py</span></code> files, the purposes of these may be:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data_setup.py</span></code> - a file to prepare data (and download data if needed).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">engine.py</span></code> - a file containing various training functions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_builder.py</span></code> or <code class="docutils literal notranslate"><span class="pre">model.py</span></code> - a file to create a PyTorch model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">train.py</span></code> - a file to leverage all other files and train a target PyTorch model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">utils.py</span></code> - a file dedicated to helpful utility functions.</p></li>
+</ul>
+<p>And the <code class="docutils literal notranslate"><span class="pre">models</span></code> and <code class="docutils literal notranslate"><span class="pre">data</span></code> directories could hold PyTorch models and data files respectively (though due to the size of models and data files, it’s unlikely you’ll find the <em>full</em> versions of these on GitHub, these directories are present above mainly for demonstration purposes).</p>
+<blockquote>
+<div><p><strong>Note:</strong> There are many different ways to structure a Python project and subsequently a PyTorch project. This isn’t a guide on <em>how</em> to structure your projects, only an example of how you <em>might</em> come across PyTorch projects in the wild. For more on structuring Python projects, see Real Python’s <a class="reference external" href="https://realpython.com/python-application-layouts/"><em>Python Application Layouts: A Reference</em></a> guide.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="what-s-the-difference-between-this-notebook-part-2-and-the-cell-mode-notebook-part-1">
+<h2>What’s the difference between this notebook (Part 2) and the cell mode notebook (Part 1)?<a class="headerlink" href="#what-s-the-difference-between-this-notebook-part-2-and-the-cell-mode-notebook-part-1" title="Permalink to this heading">#</a></h2>
+<p>This notebook, 05 Going Modular: Part 2 (script mode), creates Python scripts out of the cells created in part 1.</p>
+<p>Running this notebook end-to-end will result in having a directory structure very similar to the <code class="docutils literal notranslate"><span class="pre">pytorch_project</span></code> structure above.</p>
+<p>You’ll notice each section in Part 2 (script mode) has an extra subsection (e.g. 2.1, 3.1, 4.1) for turning cell code into script code.</p>
+</section>
+<section id="what-we-re-going-to-cover">
+<h2>What we’re going to cover<a class="headerlink" href="#what-we-re-going-to-cover" title="Permalink to this heading">#</a></h2>
+<p>By the end of this notebook you should finish with a directory structure of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>going_modular/
+├── going_modular/
+│   ├── data_setup.py
+│   ├── engine.py
+│   ├── model_builder.py
+│   ├── train.py
+│   └── utils.py
+├── models/
+│   ├── 05_going_modular_cell_mode_tinyvgg_model.pth
+│   └── 05_going_modular_script_mode_tinyvgg_model.pth
+└── data/
+    └── pizza_steak_sushi/
+        ├── train/
+        │   ├── pizza/
+        │   │   ├── image01.jpeg
+        │   │   └── ...
+        │   ├── steak/
+        │   └── sushi/
+        └── test/
+            ├── pizza/
+            ├── steak/
+            └── sushi/
+</pre></div>
+</div>
+<p>Using this directory structure, you should be able to train a model from within a notebook with the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!python going_modular/train.py
+</pre></div>
+</div>
+<p>Or from the command line with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">going_modular</span><span class="o">/</span><span class="n">train</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>In essence, we will have turned our helpful notebook code into <strong>reusable modular code</strong>.</p>
+</section>
+<section id="where-can-you-get-help">
+<h2>Where can you get help?<a class="headerlink" href="#where-can-you-get-help" title="Permalink to this heading">#</a></h2>
+<p>You can find the book version of this section <a class="reference external" href="https://www.learnpytorch.io/05_pytorch_going_modular/">05. PyTorch Going Modular on learnpytorch.io</a>.</p>
+<p>The rest of the materials for this course <a class="reference external" href="https://github.com/mrdbourke/pytorch-deep-learning">are available on GitHub</a>.</p>
+<p>If you run into trouble, you can ask a question on the course <a class="reference external" href="https://github.com/mrdbourke/pytorch-deep-learning/discussions">GitHub Discussions page</a>.</p>
+<p>And of course, there’s the <a class="reference external" href="https://pytorch.org/docs/stable/index.html">PyTorch documentation</a> and <a class="reference external" href="https://discuss.pytorch.org/">PyTorch developer forums</a>, a very helpful place for all things PyTorch.</p>
+</section>
+<section id="creating-a-folder-for-storing-python-scripts">
+<h2>0. Creating a folder for storing Python scripts<a class="headerlink" href="#creating-a-folder-for-storing-python-scripts" title="Permalink to this heading">#</a></h2>
+<p>Since we’re going to be creating Python scripts out of our most useful code cells, let’s create a folder for storing those scripts.</p>
+<p>We’ll call the folder <code class="docutils literal notranslate"><span class="pre">going_modular</span></code> and create it using Python’s <a class="reference external" href="https://docs.python.org/3/library/os.html"><code class="docutils literal notranslate"><span class="pre">os.makedirs()</span></code></a> method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+
+os.makedirs(&quot;going_modular&quot;, exist_ok=True)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="get-data">
+<h2>1. Get data<a class="headerlink" href="#get-data" title="Permalink to this heading">#</a></h2>
+<p>We’re going to start by downloading the same data we used in <a class="reference external" href="https://www.learnpytorch.io/04_pytorch_custom_datasets/#1-get-data">notebook 04</a>, the <code class="docutils literal notranslate"><span class="pre">pizza_steak_sushi</span></code> dataset with images of pizza, steak and sushi.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+import zipfile
+
+from pathlib import Path
+
+import requests
+
+# Setup path to data folder
+data_path = Path(&quot;data/&quot;)
+image_path = data_path / &quot;pizza_steak_sushi&quot;
+
+# If the image folder doesn&#39;t exist, download it and prepare it... 
+if image_path.is_dir():
+    print(f&quot;{image_path} directory exists.&quot;)
+else:
+    print(f&quot;Did not find {image_path} directory, creating one...&quot;)
+    image_path.mkdir(parents=True, exist_ok=True)
+    
+# Download pizza, steak, sushi data
+with open(data_path / &quot;pizza_steak_sushi.zip&quot;, &quot;wb&quot;) as f:
+    request = requests.get(&quot;https://github.com/mrdbourke/pytorch-deep-learning/raw/main/data/pizza_steak_sushi.zip&quot;)
+    print(&quot;Downloading pizza, steak, sushi data...&quot;)
+    f.write(request.content)
+
+# Unzip pizza, steak, sushi data
+with zipfile.ZipFile(data_path / &quot;pizza_steak_sushi.zip&quot;, &quot;r&quot;) as zip_ref:
+    print(&quot;Unzipping pizza, steak, sushi data...&quot;) 
+    zip_ref.extractall(image_path)
+
+# Remove zip file
+os.remove(data_path / &quot;pizza_steak_sushi.zip&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>data/pizza_steak_sushi directory exists.
+Downloading pizza, steak, sushi data...
+Unzipping pizza, steak, sushi data...
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Setup train and testing paths
+train_dir = image_path / &quot;train&quot;
+test_dir = image_path / &quot;test&quot;
+
+train_dir, test_dir
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(PosixPath(&#39;data/pizza_steak_sushi/train&#39;),
+ PosixPath(&#39;data/pizza_steak_sushi/test&#39;))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-datasets-and-dataloaders">
+<h2>2. Create Datasets and DataLoaders<a class="headerlink" href="#create-datasets-and-dataloaders" title="Permalink to this heading">#</a></h2>
+<p>Let’s turn our data into PyTorch <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>’s and <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>’s and find out a few useful attributes from them such as <code class="docutils literal notranslate"><span class="pre">classes</span></code> and their lengths.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from torchvision import datasets, transforms
+
+# Create simple transform
+data_transform = transforms.Compose([ 
+    transforms.Resize((64, 64)),
+    transforms.ToTensor(),
+])
+
+# Use ImageFolder to create dataset(s)
+train_data = datasets.ImageFolder(root=train_dir, # target folder of images
+                                  transform=data_transform, # transforms to perform on data (images)
+                                  target_transform=None) # transforms to perform on labels (if necessary)
+
+test_data = datasets.ImageFolder(root=test_dir, 
+                                 transform=data_transform)
+
+print(f&quot;Train data:\n{train_data}\nTest data:\n{test_data}&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train data:
+Dataset ImageFolder
+    Number of datapoints: 225
+    Root location: data/pizza_steak_sushi/train
+    StandardTransform
+Transform: Compose(
+               Resize(size=(64, 64), interpolation=bilinear, max_size=None, antialias=None)
+               ToTensor()
+           )
+Test data:
+Dataset ImageFolder
+    Number of datapoints: 75
+    Root location: data/pizza_steak_sushi/test
+    StandardTransform
+Transform: Compose(
+               Resize(size=(64, 64), interpolation=bilinear, max_size=None, antialias=None)
+               ToTensor()
+           )
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get class names as a list
+class_names = train_data.classes
+class_names
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;pizza&#39;, &#39;steak&#39;, &#39;sushi&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Can also get class names as a dict
+class_dict = train_data.class_to_idx
+class_dict
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;pizza&#39;: 0, &#39;steak&#39;: 1, &#39;sushi&#39;: 2}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Check the lengths
+len(train_data), len(test_data)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(225, 75)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Turn train and test Datasets into DataLoaders
+from torch.utils.data import DataLoader
+
+train_dataloader = DataLoader(dataset=train_data, 
+                              batch_size=1, # how many samples per batch?
+                              num_workers=1, # how many subprocesses to use for data loading? (higher = more)
+                              shuffle=True) # shuffle the data?
+
+test_dataloader = DataLoader(dataset=test_data, 
+                             batch_size=1, 
+                             num_workers=1, 
+                             shuffle=False) # don&#39;t usually need to shuffle testing data
+
+train_dataloader, test_dataloader
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;torch.utils.data.dataloader.DataLoader at 0x7fca2e344760&gt;,
+ &lt;torch.utils.data.dataloader.DataLoader at 0x7fca2e3445b0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Check out single image size/shape
+img, label = next(iter(train_dataloader))
+
+# Batch size will now be 1, try changing the batch_size parameter above and see what happens
+print(f&quot;Image shape: {img.shape} -&gt; [batch_size, color_channels, height, width]&quot;)
+print(f&quot;Label shape: {label.shape}&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Image shape: torch.Size([1, 3, 64, 64]) -&gt; [batch_size, color_channels, height, width]
+Label shape: torch.Size([1])
+</pre></div>
+</div>
+</div>
+</div>
+<section id="create-datasets-and-dataloaders-script-mode">
+<h3>2.1 Create Datasets and DataLoaders (script mode)<a class="headerlink" href="#create-datasets-and-dataloaders-script-mode" title="Permalink to this heading">#</a></h3>
+<p>Rather than rewriting all of the code above everytime we wanted to load data, we can turn it into a script called <code class="docutils literal notranslate"><span class="pre">data_setup.py</span></code>.</p>
+<p>Let’s capture all of the above functionality into a function called <code class="docutils literal notranslate"><span class="pre">create_dataloaders()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%writefile going_modular/data_setup.py
+&quot;&quot;&quot;
+Contains functionality for creating PyTorch DataLoaders for 
+image classification data.
+&quot;&quot;&quot;
+import os
+
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+
+NUM_WORKERS = os.cpu_count()
+
+def create_dataloaders(
+    train_dir: str, 
+    test_dir: str, 
+    transform: transforms.Compose, 
+    batch_size: int, 
+    num_workers: int=NUM_WORKERS
+):
+  &quot;&quot;&quot;Creates training and testing DataLoaders.
+
+  Takes in a training directory and testing directory path and turns
+  them into PyTorch Datasets and then into PyTorch DataLoaders.
+
+  Args:
+    train_dir: Path to training directory.
+    test_dir: Path to testing directory.
+    transform: torchvision transforms to perform on training and testing data.
+    batch_size: Number of samples per batch in each of the DataLoaders.
+    num_workers: An integer for number of workers per DataLoader.
+
+  Returns:
+    A tuple of (train_dataloader, test_dataloader, class_names).
+    Where class_names is a list of the target classes.
+    Example usage:
+      train_dataloader, test_dataloader, class_names = \
+        = create_dataloaders(train_dir=path/to/train_dir,
+                             test_dir=path/to/test_dir,
+                             transform=some_transform,
+                             batch_size=32,
+                             num_workers=4)
+  &quot;&quot;&quot;
+  # Use ImageFolder to create dataset(s)
+  train_data = datasets.ImageFolder(train_dir, transform=transform)
+  test_data = datasets.ImageFolder(test_dir, transform=transform)
+
+  # Get class names
+  class_names = train_data.classes
+
+  # Turn images into data loaders
+  train_dataloader = DataLoader(
+      train_data,
+      batch_size=batch_size,
+      shuffle=True,
+      num_workers=num_workers,
+      pin_memory=True,
+  )
+  test_dataloader = DataLoader(
+      test_data,
+      batch_size=batch_size,
+      shuffle=False,
+      num_workers=num_workers,
+      pin_memory=True,
+  )
+
+  return train_dataloader, test_dataloader, class_names
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overwriting going_modular/data_setup.py
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="making-a-model-tinyvgg">
+<h2>3. Making a model (TinyVGG)<a class="headerlink" href="#making-a-model-tinyvgg" title="Permalink to this heading">#</a></h2>
+<p>We’re going to use the same model we used in notebook 04: TinyVGG from the CNN Explainer website.</p>
+<p>The only change here from notebook 04 is that a docstring has been added using <a class="reference external" href="https://google.github.io/styleguide/pyguide.html#384-classes">Google’s Style Guide for Python</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import torch
+
+from torch import nn 
+
+class TinyVGG(nn.Module):
+    &quot;&quot;&quot;Creates the TinyVGG architecture.
+
+    Replicates the TinyVGG architecture from the CNN explainer website in PyTorch.
+    See the original architecture here: https://poloclub.github.io/cnn-explainer/
+
+    Args:
+    input_shape: An integer indicating number of input channels.
+    hidden_units: An integer indicating number of hidden units between layers.
+    output_shape: An integer indicating number of output units.
+    &quot;&quot;&quot;
+    def __init__(self, input_shape: int, hidden_units: int, output_shape: int) -&gt; None:
+        super().__init__()
+        self.conv_block_1 = nn.Sequential(
+          nn.Conv2d(in_channels=input_shape, 
+                    out_channels=hidden_units, 
+                    kernel_size=3, 
+                    stride=1, 
+                    padding=0),  
+          nn.ReLU(),
+          nn.Conv2d(in_channels=hidden_units, 
+                    out_channels=hidden_units,
+                    kernel_size=3,
+                    stride=1,
+                    padding=0),
+          nn.ReLU(),
+          nn.MaxPool2d(kernel_size=2,
+                        stride=2)
+        )
+        self.conv_block_2 = nn.Sequential(
+          nn.Conv2d(hidden_units, hidden_units, kernel_size=3, padding=0),
+          nn.ReLU(),
+          nn.Conv2d(hidden_units, hidden_units, kernel_size=3, padding=0),
+          nn.ReLU(),
+          nn.MaxPool2d(2)
+        )
+        self.classifier = nn.Sequential(
+          nn.Flatten(),
+          # Where did this in_features shape come from? 
+          # It&#39;s because each layer of our network compresses and changes the shape of our inputs data.
+          nn.Linear(in_features=hidden_units*13*13,
+                    out_features=output_shape)
+        )
+    
+    def forward(self, x: torch.Tensor):
+        x = self.conv_block_1(x)
+        x = self.conv_block_2(x)
+        x = self.classifier(x)
+        return x
+        # return self.classifier(self.block_2(self.block_1(x))) # &lt;- leverage the benefits of operator fusion
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s create an instance of <code class="docutils literal notranslate"><span class="pre">TinyVGG</span></code> and put it on the target device.</p>
+<blockquote>
+<div><p><strong>Note:</strong> If you’re using Google Colab, and you’d like to use a GPU (recommended), you can turn one on via going to Runtime -&gt; Change runtime type -&gt; Hardware accelerator -&gt; GPU.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import torch
+
+device = &quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;
+
+# Instantiate an instance of the model
+torch.manual_seed(42)
+model_0 = TinyVGG(input_shape=3, # number of color channels (3 for RGB) 
+                  hidden_units=10, 
+                  output_shape=len(train_data.classes)).to(device)
+model_0
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TinyVGG(
+  (conv_block_1): Sequential(
+    (0): Conv2d(3, 10, kernel_size=(3, 3), stride=(1, 1))
+    (1): ReLU()
+    (2): Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1))
+    (3): ReLU()
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv_block_2): Sequential(
+    (0): Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1))
+    (1): ReLU()
+    (2): Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1))
+    (3): ReLU()
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (classifier): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=1690, out_features=3, bias=True)
+  )
+)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s check out our model by doing a dummy forward pass.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 1. Get a batch of images and labels from the DataLoader
+img_batch, label_batch = next(iter(train_dataloader))
+
+# 2. Get a single image from the batch and unsqueeze the image so its shape fits the model
+img_single, label_single = img_batch[0].unsqueeze(dim=0), label_batch[0]
+print(f&quot;Single image shape: {img_single.shape}\n&quot;)
+
+# 3. Perform a forward pass on a single image
+model_0.eval()
+with torch.inference_mode():
+    pred = model_0(img_single.to(device))
+    
+# 4. Print out what&#39;s happening and convert model logits -&gt; pred probs -&gt; pred label
+print(f&quot;Output logits:\n{pred}\n&quot;)
+print(f&quot;Output prediction probabilities:\n{torch.softmax(pred, dim=1)}\n&quot;)
+print(f&quot;Output prediction label:\n{torch.argmax(torch.softmax(pred, dim=1), dim=1)}\n&quot;)
+print(f&quot;Actual label:\n{label_single}&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Single image shape: torch.Size([1, 3, 64, 64])
+
+Output logits:
+tensor([[ 0.0208, -0.0019,  0.0095]], device=&#39;cuda:0&#39;)
+
+Output prediction probabilities:
+tensor([[0.3371, 0.3295, 0.3333]], device=&#39;cuda:0&#39;)
+
+Output prediction label:
+tensor([0], device=&#39;cuda:0&#39;)
+
+Actual label:
+0
+</pre></div>
+</div>
+</div>
+</div>
+<section id="making-a-model-tinyvgg-script-mode">
+<h3>3.1 Making a model (TinyVGG) (script mode)<a class="headerlink" href="#making-a-model-tinyvgg-script-mode" title="Permalink to this heading">#</a></h3>
+<p>Over the past few notebooks (notebook 03 and notebook 04), we’ve built the TinyVGG model a few times.</p>
+<p>So it makes sense to put the model into its file so we can reuse it again and again.</p>
+<p>Let’s put our <code class="docutils literal notranslate"><span class="pre">TinyVGG()</span></code> model class into a script called <code class="docutils literal notranslate"><span class="pre">model_builder.py</span></code> with the line <code class="docutils literal notranslate"><span class="pre">%%writefile</span> <span class="pre">going_modular/model_builder.py</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%writefile going_modular/model_builder.py
+&quot;&quot;&quot;
+Contains PyTorch model code to instantiate a TinyVGG model.
+&quot;&quot;&quot;
+import torch
+
+from torch import nn
+
+class TinyVGG(nn.Module):
+    &quot;&quot;&quot;Creates the TinyVGG architecture.
+
+    Replicates the TinyVGG architecture from the CNN explainer website in PyTorch.
+    See the original architecture here: https://poloclub.github.io/cnn-explainer/
+
+    Args:
+    input_shape: An integer indicating number of input channels.
+    hidden_units: An integer indicating number of hidden units between layers.
+    output_shape: An integer indicating number of output units.
+    &quot;&quot;&quot;
+    def __init__(self, input_shape: int, hidden_units: int, output_shape: int) -&gt; None:
+        super().__init__()
+        self.conv_block_1 = nn.Sequential(
+          nn.Conv2d(in_channels=input_shape, 
+                    out_channels=hidden_units, 
+                    kernel_size=3, 
+                    stride=1, 
+                    padding=0),  
+          nn.ReLU(),
+          nn.Conv2d(in_channels=hidden_units, 
+                    out_channels=hidden_units,
+                    kernel_size=3,
+                    stride=1,
+                    padding=0),
+          nn.ReLU(),
+          nn.MaxPool2d(kernel_size=2,
+                        stride=2)
+        )
+        self.conv_block_2 = nn.Sequential(
+          nn.Conv2d(hidden_units, hidden_units, kernel_size=3, padding=0),
+          nn.ReLU(),
+          nn.Conv2d(hidden_units, hidden_units, kernel_size=3, padding=0),
+          nn.ReLU(),
+          nn.MaxPool2d(2)
+        )
+        self.classifier = nn.Sequential(
+          nn.Flatten(),
+          # Where did this in_features shape come from? 
+          # It&#39;s because each layer of our network compresses and changes the shape of our inputs data.
+          nn.Linear(in_features=hidden_units*13*13,
+                    out_features=output_shape)
+        )
+    
+    def forward(self, x: torch.Tensor):
+        x = self.conv_block_1(x)
+        x = self.conv_block_2(x)
+        x = self.classifier(x)
+        return x
+        # return self.classifier(self.block_2(self.block_1(x))) # &lt;- leverage the benefits of operator fusion
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overwriting going_modular/model_builder.py
+</pre></div>
+</div>
+</div>
+</div>
+<p>Create an instance of <code class="docutils literal notranslate"><span class="pre">TinyVGG</span></code> (from the script).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import torch
+
+from going_modular import model_builder
+
+device = &quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;
+
+# Instantiate an instance of the model from the &quot;model_builder.py&quot; script
+torch.manual_seed(42)
+model_1 = model_builder.TinyVGG(input_shape=3, # number of color channels (3 for RGB) 
+                                hidden_units=10, 
+                                output_shape=len(class_names)).to(device)
+model_1
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TinyVGG(
+  (conv_block_1): Sequential(
+    (0): Conv2d(3, 10, kernel_size=(3, 3), stride=(1, 1))
+    (1): ReLU()
+    (2): Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1))
+    (3): ReLU()
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv_block_2): Sequential(
+    (0): Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1))
+    (1): ReLU()
+    (2): Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1))
+    (3): ReLU()
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (classifier): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=1690, out_features=3, bias=True)
+  )
+)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Do a dummy forward pass on <code class="docutils literal notranslate"><span class="pre">model_1</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># 1. Get a batch of images and labels from the DataLoader
+img_batch, label_batch = next(iter(train_dataloader))
+
+# 2. Get a single image from the batch and unsqueeze the image so its shape fits the model
+img_single, label_single = img_batch[0].unsqueeze(dim=0), label_batch[0]
+print(f&quot;Single image shape: {img_single.shape}\n&quot;)
+
+# 3. Perform a forward pass on a single image
+model_1.eval()
+with torch.inference_mode():
+    pred = model_1(img_single.to(device))
+    
+# 4. Print out what&#39;s happening and convert model logits -&gt; pred probs -&gt; pred label
+print(f&quot;Output logits:\n{pred}\n&quot;)
+print(f&quot;Output prediction probabilities:\n{torch.softmax(pred, dim=1)}\n&quot;)
+print(f&quot;Output prediction label:\n{torch.argmax(torch.softmax(pred, dim=1), dim=1)}\n&quot;)
+print(f&quot;Actual label:\n{label_single}&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Single image shape: torch.Size([1, 3, 64, 64])
+
+Output logits:
+tensor([[ 0.0208, -0.0019,  0.0095]], device=&#39;cuda:0&#39;)
+
+Output prediction probabilities:
+tensor([[0.3371, 0.3295, 0.3333]], device=&#39;cuda:0&#39;)
+
+Output prediction label:
+tensor([0], device=&#39;cuda:0&#39;)
+
+Actual label:
+0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="creating-train-step-and-test-step-functions-and-train-to-combine-them">
+<h2>4. Creating <code class="docutils literal notranslate"><span class="pre">train_step()</span></code> and <code class="docutils literal notranslate"><span class="pre">test_step()</span></code> functions and <code class="docutils literal notranslate"><span class="pre">train()</span></code> to combine them<a class="headerlink" href="#creating-train-step-and-test-step-functions-and-train-to-combine-them" title="Permalink to this heading">#</a></h2>
+<p>Rather than writing them again, we can reuse the <code class="docutils literal notranslate"><span class="pre">train_step()</span></code> and <code class="docutils literal notranslate"><span class="pre">test_step()</span></code> functions from <a class="reference external" href="https://www.learnpytorch.io/04_pytorch_custom_datasets/#75-create-train-test-loop-functions">notebook 04</a>.</p>
+<p>The same goes for the <code class="docutils literal notranslate"><span class="pre">train()</span></code> function we created.</p>
+<p>The only difference here is that these functions have had docstrings added to them in <a class="reference external" href="https://google.github.io/styleguide/pyguide.html#383-functions-and-methods">Google’s Python Functions and Methods Style Guide</a>.</p>
+<p>Let’s start by making <code class="docutils literal notranslate"><span class="pre">train_step()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from typing import Tuple
+
+def train_step(model: torch.nn.Module, 
+               dataloader: torch.utils.data.DataLoader, 
+               loss_fn: torch.nn.Module, 
+               optimizer: torch.optim.Optimizer,
+               device: torch.device) -&gt; Tuple[float, float]:
+    &quot;&quot;&quot;Trains a PyTorch model for a single epoch.
+
+    Turns a target PyTorch model to training mode and then
+    runs through all of the required training steps (forward
+    pass, loss calculation, optimizer step).
+
+    Args:
+    model: A PyTorch model to be trained.
+    dataloader: A DataLoader instance for the model to be trained on.
+    loss_fn: A PyTorch loss function to minimize.
+    optimizer: A PyTorch optimizer to help minimize the loss function.
+    device: A target device to compute on (e.g. &quot;cuda&quot; or &quot;cpu&quot;).
+
+    Returns:
+    A tuple of training loss and training accuracy metrics.
+    In the form (train_loss, train_accuracy). For example:
+
+    (0.1112, 0.8743)
+    &quot;&quot;&quot;
+    # Put model in train mode
+    model.train()
+
+    # Setup train loss and train accuracy values
+    train_loss, train_acc = 0, 0
+
+    # Loop through data loader data batches
+    for batch, (X, y) in enumerate(dataloader):
+        # Send data to target device
+        X, y = X.to(device), y.to(device)
+
+        # 1. Forward pass
+        y_pred = model(X)
+
+        # 2. Calculate  and accumulate loss
+        loss = loss_fn(y_pred, y)
+        train_loss += loss.item() 
+
+        # 3. Optimizer zero grad
+        optimizer.zero_grad()
+
+        # 4. Loss backward
+        loss.backward()
+
+        # 5. Optimizer step
+        optimizer.step()
+
+        # Calculate and accumulate accuracy metric across all batches
+        y_pred_class = torch.argmax(torch.softmax(y_pred, dim=1), dim=1)
+        train_acc += (y_pred_class == y).sum().item()/len(y_pred)
+
+    # Adjust metrics to get average loss and accuracy per batch 
+    train_loss = train_loss / len(dataloader)
+    train_acc = train_acc / len(dataloader)
+    return train_loss, train_acc
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we’ll do <code class="docutils literal notranslate"><span class="pre">test_step()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def test_step(model: torch.nn.Module, 
+              dataloader: torch.utils.data.DataLoader, 
+              loss_fn: torch.nn.Module,
+              device: torch.device) -&gt; Tuple[float, float]:
+    &quot;&quot;&quot;Tests a PyTorch model for a single epoch.
+
+    Turns a target PyTorch model to &quot;eval&quot; mode and then performs
+    a forward pass on a testing dataset.
+
+    Args:
+    model: A PyTorch model to be tested.
+    dataloader: A DataLoader instance for the model to be tested on.
+    loss_fn: A PyTorch loss function to calculate loss on the test data.
+    device: A target device to compute on (e.g. &quot;cuda&quot; or &quot;cpu&quot;).
+
+    Returns:
+    A tuple of testing loss and testing accuracy metrics.
+    In the form (test_loss, test_accuracy). For example:
+
+    (0.0223, 0.8985)
+    &quot;&quot;&quot;
+    # Put model in eval mode
+    model.eval() 
+
+    # Setup test loss and test accuracy values
+    test_loss, test_acc = 0, 0
+
+    # Turn on inference context manager
+    with torch.inference_mode():
+        # Loop through DataLoader batches
+        for batch, (X, y) in enumerate(dataloader):
+            # Send data to target device
+            X, y = X.to(device), y.to(device)
+
+            # 1. Forward pass
+            test_pred_logits = model(X)
+
+            # 2. Calculate and accumulate loss
+            loss = loss_fn(test_pred_logits, y)
+            test_loss += loss.item()
+
+            # Calculate and accumulate accuracy
+            test_pred_labels = test_pred_logits.argmax(dim=1)
+            test_acc += ((test_pred_labels == y).sum().item()/len(test_pred_labels))
+
+    # Adjust metrics to get average loss and accuracy per batch 
+    test_loss = test_loss / len(dataloader)
+    test_acc = test_acc / len(dataloader)
+    return test_loss, test_acc
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we’ll combine <code class="docutils literal notranslate"><span class="pre">train_step()</span></code> and <code class="docutils literal notranslate"><span class="pre">test_step()</span></code> into <code class="docutils literal notranslate"><span class="pre">train()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from typing import Dict, List
+
+from tqdm.auto import tqdm
+
+def train(model: torch.nn.Module, 
+          train_dataloader: torch.utils.data.DataLoader, 
+          test_dataloader: torch.utils.data.DataLoader, 
+          optimizer: torch.optim.Optimizer,
+          loss_fn: torch.nn.Module,
+          epochs: int,
+          device: torch.device) -&gt; Dict[str, List[float]]:
+    &quot;&quot;&quot;Trains and tests a PyTorch model.
+
+    Passes a target PyTorch models through train_step() and test_step()
+    functions for a number of epochs, training and testing the model
+    in the same epoch loop.
+
+    Calculates, prints and stores evaluation metrics throughout.
+
+    Args:
+    model: A PyTorch model to be trained and tested.
+    train_dataloader: A DataLoader instance for the model to be trained on.
+    test_dataloader: A DataLoader instance for the model to be tested on.
+    optimizer: A PyTorch optimizer to help minimize the loss function.
+    loss_fn: A PyTorch loss function to calculate loss on both datasets.
+    epochs: An integer indicating how many epochs to train for.
+    device: A target device to compute on (e.g. &quot;cuda&quot; or &quot;cpu&quot;).
+
+    Returns:
+    A dictionary of training and testing loss as well as training and
+    testing accuracy metrics. Each metric has a value in a list for 
+    each epoch.
+    In the form: {train_loss: [...],
+                  train_acc: [...],
+                  test_loss: [...],
+                  test_acc: [...]} 
+    For example if training for epochs=2: 
+                 {train_loss: [2.0616, 1.0537],
+                  train_acc: [0.3945, 0.3945],
+                  test_loss: [1.2641, 1.5706],
+                  test_acc: [0.3400, 0.2973]} 
+    &quot;&quot;&quot;
+    # Create empty results dictionary
+    results = {&quot;train_loss&quot;: [],
+      &quot;train_acc&quot;: [],
+      &quot;test_loss&quot;: [],
+      &quot;test_acc&quot;: []
+    }
+
+    # Loop through training and testing steps for a number of epochs
+    for epoch in tqdm(range(epochs)):
+        train_loss, train_acc = train_step(model=model,
+                                          dataloader=train_dataloader,
+                                          loss_fn=loss_fn,
+                                          optimizer=optimizer,
+                                          device=device)
+        test_loss, test_acc = test_step(model=model,
+          dataloader=test_dataloader,
+          loss_fn=loss_fn,
+          device=device)
+
+        # Print out what&#39;s happening
+        print(
+          f&quot;Epoch: {epoch+1} | &quot;
+          f&quot;train_loss: {train_loss:.4f} | &quot;
+          f&quot;train_acc: {train_acc:.4f} | &quot;
+          f&quot;test_loss: {test_loss:.4f} | &quot;
+          f&quot;test_acc: {test_acc:.4f}&quot;
+        )
+
+        # Update results dictionary
+        results[&quot;train_loss&quot;].append(train_loss)
+        results[&quot;train_acc&quot;].append(train_acc)
+        results[&quot;test_loss&quot;].append(test_loss)
+        results[&quot;test_acc&quot;].append(test_acc)
+
+    # Return the filled results at the end of the epochs
+    return results
+</pre></div>
+</div>
+</div>
+</div>
+<section id="creating-train-step-and-test-step-functions-and-train-to-combine-them-script-mode">
+<h3>4.1 Creating <code class="docutils literal notranslate"><span class="pre">train_step()</span></code> and <code class="docutils literal notranslate"><span class="pre">test_step()</span></code> functions and <code class="docutils literal notranslate"><span class="pre">train()</span></code> to combine them (script mode)<a class="headerlink" href="#creating-train-step-and-test-step-functions-and-train-to-combine-them-script-mode" title="Permalink to this heading">#</a></h3>
+<p>To create a script for <code class="docutils literal notranslate"><span class="pre">train_step()</span></code>, <code class="docutils literal notranslate"><span class="pre">test_step()</span></code> and <code class="docutils literal notranslate"><span class="pre">train()</span></code>, we’ll combine their code all into a single cell.</p>
+<p>We’ll then write that cell to a file called <code class="docutils literal notranslate"><span class="pre">engine.py</span></code> because these functions will be the “engine” of our training pipeline.</p>
+<p>We can do so with the magic line <code class="docutils literal notranslate"><span class="pre">%%writefile</span> <span class="pre">going_modular/engine.py</span></code>.</p>
+<p>We’ll also make sure to put all the imports we need (<code class="docutils literal notranslate"><span class="pre">torch</span></code>, <code class="docutils literal notranslate"><span class="pre">typing</span></code>, and <code class="docutils literal notranslate"><span class="pre">tqdm</span></code>) at the top of the cell.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%writefile going_modular/engine.py
+&quot;&quot;&quot;
+Contains functions for training and testing a PyTorch model.
+&quot;&quot;&quot;
+from typing import Dict, List, Tuple
+
+import torch
+
+from tqdm.auto import tqdm
+
+def train_step(model: torch.nn.Module, 
+               dataloader: torch.utils.data.DataLoader, 
+               loss_fn: torch.nn.Module, 
+               optimizer: torch.optim.Optimizer,
+               device: torch.device) -&gt; Tuple[float, float]:
+    &quot;&quot;&quot;Trains a PyTorch model for a single epoch.
+
+    Turns a target PyTorch model to training mode and then
+    runs through all of the required training steps (forward
+    pass, loss calculation, optimizer step).
+
+    Args:
+    model: A PyTorch model to be trained.
+    dataloader: A DataLoader instance for the model to be trained on.
+    loss_fn: A PyTorch loss function to minimize.
+    optimizer: A PyTorch optimizer to help minimize the loss function.
+    device: A target device to compute on (e.g. &quot;cuda&quot; or &quot;cpu&quot;).
+
+    Returns:
+    A tuple of training loss and training accuracy metrics.
+    In the form (train_loss, train_accuracy). For example:
+
+    (0.1112, 0.8743)
+    &quot;&quot;&quot;
+    # Put model in train mode
+    model.train()
+
+    # Setup train loss and train accuracy values
+    train_loss, train_acc = 0, 0
+
+    # Loop through data loader data batches
+    for batch, (X, y) in enumerate(dataloader):
+        # Send data to target device
+        X, y = X.to(device), y.to(device)
+
+        # 1. Forward pass
+        y_pred = model(X)
+
+        # 2. Calculate  and accumulate loss
+        loss = loss_fn(y_pred, y)
+        train_loss += loss.item() 
+
+        # 3. Optimizer zero grad
+        optimizer.zero_grad()
+
+        # 4. Loss backward
+        loss.backward()
+
+        # 5. Optimizer step
+        optimizer.step()
+
+        # Calculate and accumulate accuracy metric across all batches
+        y_pred_class = torch.argmax(torch.softmax(y_pred, dim=1), dim=1)
+        train_acc += (y_pred_class == y).sum().item()/len(y_pred)
+
+    # Adjust metrics to get average loss and accuracy per batch 
+    train_loss = train_loss / len(dataloader)
+    train_acc = train_acc / len(dataloader)
+    return train_loss, train_acc
+
+def test_step(model: torch.nn.Module, 
+              dataloader: torch.utils.data.DataLoader, 
+              loss_fn: torch.nn.Module,
+              device: torch.device) -&gt; Tuple[float, float]:
+    &quot;&quot;&quot;Tests a PyTorch model for a single epoch.
+
+    Turns a target PyTorch model to &quot;eval&quot; mode and then performs
+    a forward pass on a testing dataset.
+
+    Args:
+    model: A PyTorch model to be tested.
+    dataloader: A DataLoader instance for the model to be tested on.
+    loss_fn: A PyTorch loss function to calculate loss on the test data.
+    device: A target device to compute on (e.g. &quot;cuda&quot; or &quot;cpu&quot;).
+
+    Returns:
+    A tuple of testing loss and testing accuracy metrics.
+    In the form (test_loss, test_accuracy). For example:
+
+    (0.0223, 0.8985)
+    &quot;&quot;&quot;
+    # Put model in eval mode
+    model.eval() 
+
+    # Setup test loss and test accuracy values
+    test_loss, test_acc = 0, 0
+
+    # Turn on inference context manager
+    with torch.inference_mode():
+        # Loop through DataLoader batches
+        for batch, (X, y) in enumerate(dataloader):
+            # Send data to target device
+            X, y = X.to(device), y.to(device)
+
+            # 1. Forward pass
+            test_pred_logits = model(X)
+
+            # 2. Calculate and accumulate loss
+            loss = loss_fn(test_pred_logits, y)
+            test_loss += loss.item()
+
+            # Calculate and accumulate accuracy
+            test_pred_labels = test_pred_logits.argmax(dim=1)
+            test_acc += ((test_pred_labels == y).sum().item()/len(test_pred_labels))
+
+    # Adjust metrics to get average loss and accuracy per batch 
+    test_loss = test_loss / len(dataloader)
+    test_acc = test_acc / len(dataloader)
+    return test_loss, test_acc
+
+def train(model: torch.nn.Module, 
+          train_dataloader: torch.utils.data.DataLoader, 
+          test_dataloader: torch.utils.data.DataLoader, 
+          optimizer: torch.optim.Optimizer,
+          loss_fn: torch.nn.Module,
+          epochs: int,
+          device: torch.device) -&gt; Dict[str, List[float]]:
+    &quot;&quot;&quot;Trains and tests a PyTorch model.
+
+    Passes a target PyTorch models through train_step() and test_step()
+    functions for a number of epochs, training and testing the model
+    in the same epoch loop.
+
+    Calculates, prints and stores evaluation metrics throughout.
+
+    Args:
+    model: A PyTorch model to be trained and tested.
+    train_dataloader: A DataLoader instance for the model to be trained on.
+    test_dataloader: A DataLoader instance for the model to be tested on.
+    optimizer: A PyTorch optimizer to help minimize the loss function.
+    loss_fn: A PyTorch loss function to calculate loss on both datasets.
+    epochs: An integer indicating how many epochs to train for.
+    device: A target device to compute on (e.g. &quot;cuda&quot; or &quot;cpu&quot;).
+
+    Returns:
+    A dictionary of training and testing loss as well as training and
+    testing accuracy metrics. Each metric has a value in a list for 
+    each epoch.
+    In the form: {train_loss: [...],
+              train_acc: [...],
+              test_loss: [...],
+              test_acc: [...]} 
+    For example if training for epochs=2: 
+             {train_loss: [2.0616, 1.0537],
+              train_acc: [0.3945, 0.3945],
+              test_loss: [1.2641, 1.5706],
+              test_acc: [0.3400, 0.2973]} 
+    &quot;&quot;&quot;
+    # Create empty results dictionary
+    results = {&quot;train_loss&quot;: [],
+               &quot;train_acc&quot;: [],
+               &quot;test_loss&quot;: [],
+               &quot;test_acc&quot;: []
+    }
+
+    # Loop through training and testing steps for a number of epochs
+    for epoch in tqdm(range(epochs)):
+        train_loss, train_acc = train_step(model=model,
+                                          dataloader=train_dataloader,
+                                          loss_fn=loss_fn,
+                                          optimizer=optimizer,
+                                          device=device)
+        test_loss, test_acc = test_step(model=model,
+          dataloader=test_dataloader,
+          loss_fn=loss_fn,
+          device=device)
+
+        # Print out what&#39;s happening
+        print(
+          f&quot;Epoch: {epoch+1} | &quot;
+          f&quot;train_loss: {train_loss:.4f} | &quot;
+          f&quot;train_acc: {train_acc:.4f} | &quot;
+          f&quot;test_loss: {test_loss:.4f} | &quot;
+          f&quot;test_acc: {test_acc:.4f}&quot;
+        )
+
+        # Update results dictionary
+        results[&quot;train_loss&quot;].append(train_loss)
+        results[&quot;train_acc&quot;].append(train_acc)
+        results[&quot;test_loss&quot;].append(test_loss)
+        results[&quot;test_acc&quot;].append(test_acc)
+
+    # Return the filled results at the end of the epochs
+    return results
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overwriting going_modular/engine.py
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="creating-a-function-to-save-the-model">
+<h2>5. Creating a function to save the model<a class="headerlink" href="#creating-a-function-to-save-the-model" title="Permalink to this heading">#</a></h2>
+<p>Let’s setup a function to save our model to a directory.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from pathlib import Path
+
+def save_model(model: torch.nn.Module,
+               target_dir: str,
+               model_name: str):
+    &quot;&quot;&quot;Saves a PyTorch model to a target directory.
+
+    Args:
+    model: A target PyTorch model to save.
+    target_dir: A directory for saving the model to.
+    model_name: A filename for the saved model. Should include
+      either &quot;.pth&quot; or &quot;.pt&quot; as the file extension.
+
+    Example usage:
+    save_model(model=model_0,
+               target_dir=&quot;models&quot;,
+               model_name=&quot;05_going_modular_tingvgg_model.pth&quot;)
+    &quot;&quot;&quot;
+    # Create target directory
+    target_dir_path = Path(target_dir)
+    target_dir_path.mkdir(parents=True,
+                        exist_ok=True)
+
+    # Create model save path
+    assert model_name.endswith(&quot;.pth&quot;) or model_name.endswith(&quot;.pt&quot;), &quot;model_name should end with &#39;.pt&#39; or &#39;.pth&#39;&quot;
+    model_save_path = target_dir_path / model_name
+
+    # Save the model state_dict()
+    print(f&quot;[INFO] Saving model to: {model_save_path}&quot;)
+    torch.save(obj=model.state_dict(),
+             f=model_save_path)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="creating-a-function-to-save-the-model-script-mode">
+<h3>5.1 Creating a function to save the model (script mode)<a class="headerlink" href="#creating-a-function-to-save-the-model-script-mode" title="Permalink to this heading">#</a></h3>
+<p>How about we add our <code class="docutils literal notranslate"><span class="pre">save_model()</span></code> function to a script called <code class="docutils literal notranslate"><span class="pre">utils.py</span></code> which is short for “utilities”.</p>
+<p>We can do so with the magic line <code class="docutils literal notranslate"><span class="pre">%%writefile</span> <span class="pre">going_modular/utils.py</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%writefile going_modular/utils.py
+&quot;&quot;&quot;
+Contains various utility functions for PyTorch model training and saving.
+&quot;&quot;&quot;
+from pathlib import Path
+
+import torch
+
+def save_model(model: torch.nn.Module,
+               target_dir: str,
+               model_name: str):
+    &quot;&quot;&quot;Saves a PyTorch model to a target directory.
+
+    Args:
+    model: A target PyTorch model to save.
+    target_dir: A directory for saving the model to.
+    model_name: A filename for the saved model. Should include
+      either &quot;.pth&quot; or &quot;.pt&quot; as the file extension.
+
+    Example usage:
+    save_model(model=model_0,
+               target_dir=&quot;models&quot;,
+               model_name=&quot;05_going_modular_tingvgg_model.pth&quot;)
+    &quot;&quot;&quot;
+    # Create target directory
+    target_dir_path = Path(target_dir)
+    target_dir_path.mkdir(parents=True,
+                        exist_ok=True)
+
+    # Create model save path
+    assert model_name.endswith(&quot;.pth&quot;) or model_name.endswith(&quot;.pt&quot;), &quot;model_name should end with &#39;.pt&#39; or &#39;.pth&#39;&quot;
+    model_save_path = target_dir_path / model_name
+
+    # Save the model state_dict()
+    print(f&quot;[INFO] Saving model to: {model_save_path}&quot;)
+    torch.save(obj=model.state_dict(),
+             f=model_save_path)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overwriting going_modular/utils.py
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="train-evaluate-and-save-the-model">
+<h2>6. Train, evaluate and save the model<a class="headerlink" href="#train-evaluate-and-save-the-model" title="Permalink to this heading">#</a></h2>
+<p>Let’s leverage the functions we’ve got above to train, test and save a model to file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set random seeds
+torch.manual_seed(42) 
+torch.cuda.manual_seed(42)
+
+# Set number of epochs
+NUM_EPOCHS = 5
+
+# Recreate an instance of TinyVGG
+model_0 = TinyVGG(input_shape=3, # number of color channels (3 for RGB) 
+                  hidden_units=10, 
+                  output_shape=len(train_data.classes)).to(device)
+
+# Setup loss function and optimizer
+loss_fn = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(params=model_0.parameters(), lr=0.001)
+
+# Start the timer
+from timeit import default_timer as timer 
+start_time = timer()
+
+# Train model_0 
+model_0_results = train(model=model_0, 
+                        train_dataloader=train_dataloader,
+                        test_dataloader=test_dataloader,
+                        optimizer=optimizer,
+                        loss_fn=loss_fn, 
+                        epochs=NUM_EPOCHS,
+                        device=device)
+
+# End the timer and print out how long it took
+end_time = timer()
+print(f&quot;[INFO] Total training time: {end_time-start_time:.3f} seconds&quot;)
+
+# Save the model
+save_model(model=model_0,
+           target_dir=&quot;models&quot;,
+           model_name=&quot;05_going_modular_cell_mode_tinyvgg_model.pth&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "205f478a42ca42f2ab32113d597dc388", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 1 | train_loss: 1.0956 | train_acc: 0.3867 | test_loss: 1.0630 | test_acc: 0.4133
+Epoch: 2 | train_loss: 1.0141 | train_acc: 0.5111 | test_loss: 1.0210 | test_acc: 0.4533
+Epoch: 3 | train_loss: 0.9591 | train_acc: 0.5644 | test_loss: 0.9961 | test_acc: 0.4400
+Epoch: 4 | train_loss: 0.8994 | train_acc: 0.5778 | test_loss: 0.9986 | test_acc: 0.4533
+Epoch: 5 | train_loss: 0.8652 | train_acc: 0.6267 | test_loss: 1.0010 | test_acc: 0.5467
+[INFO] Total training time: 5.461 seconds
+[INFO] Saving model to: models/05_going_modular_cell_mode_tinyvgg_model.pth
+</pre></div>
+</div>
+</div>
+</div>
+<section id="train-evaluate-and-save-the-model-script-mode">
+<h3>6.1 Train, evaluate and save the model (script mode)<a class="headerlink" href="#train-evaluate-and-save-the-model-script-mode" title="Permalink to this heading">#</a></h3>
+<p>Let’s combine all of our modular files into a single script <code class="docutils literal notranslate"><span class="pre">train.py</span></code>.</p>
+<p>This will allow us to run all of the functions we’ve written with a single line of code on the command line:</p>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">going_modular/train.py</span></code></p>
+<p>Or if we’re running it in a notebook:</p>
+<p><code class="docutils literal notranslate"><span class="pre">!python</span> <span class="pre">going_modular/train.py</span></code></p>
+<p>We’ll go through the following steps:</p>
+<ol class="arabic simple">
+<li><p>Import the various dependencies, namely <code class="docutils literal notranslate"><span class="pre">torch</span></code>, <code class="docutils literal notranslate"><span class="pre">os</span></code>, <code class="docutils literal notranslate"><span class="pre">torchvision.transforms</span></code> and all of the scripts from the <code class="docutils literal notranslate"><span class="pre">going_modular</span></code> directory, <code class="docutils literal notranslate"><span class="pre">data_setup</span></code>, <code class="docutils literal notranslate"><span class="pre">engine</span></code>, <code class="docutils literal notranslate"><span class="pre">model_builder</span></code>, <code class="docutils literal notranslate"><span class="pre">utils</span></code>.</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>Note:</strong> Since <code class="docutils literal notranslate"><span class="pre">train.py</span></code> will be <em>inside</em> the <code class="docutils literal notranslate"><span class="pre">going_modular</span></code> directory, we can import the other modules via <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">...</span></code> rather than <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">going_modular</span> <span class="pre">import</span> <span class="pre">...</span></code>.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Setup various hyperparameters such as batch size, number of epochs, learning rate and number of hidden units (these could be set in the future via <a class="reference external" href="https://docs.python.org/3/library/argparse.html">Python’s <code class="docutils literal notranslate"><span class="pre">argparse</span></code></a>).</p></li>
+<li><p>Setup the training and test directories.</p></li>
+<li><p>Setup device-agnostic code.</p></li>
+<li><p>Create the necessary data transforms.</p></li>
+<li><p>Create the DataLoaders using <code class="docutils literal notranslate"><span class="pre">data_setup.py</span></code>.</p></li>
+<li><p>Create the model using <code class="docutils literal notranslate"><span class="pre">model_builder.py</span></code>.</p></li>
+<li><p>Setup the loss function and optimizer.</p></li>
+<li><p>Train the model using <code class="docutils literal notranslate"><span class="pre">engine.py</span></code>.</p></li>
+<li><p>Save the model using <code class="docutils literal notranslate"><span class="pre">utils.py</span></code>.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%writefile going_modular/train.py
+&quot;&quot;&quot;
+Trains a PyTorch image classification model using device-agnostic code.
+&quot;&quot;&quot;
+
+import os
+
+import torch
+
+from torchvision import transforms
+
+import data_setup, engine, model_builder, utils
+
+
+# Setup hyperparameters
+NUM_EPOCHS = 5
+BATCH_SIZE = 32
+HIDDEN_UNITS = 10
+LEARNING_RATE = 0.001
+
+# Setup directories
+train_dir = &quot;data/pizza_steak_sushi/train&quot;
+test_dir = &quot;data/pizza_steak_sushi/test&quot;
+
+# Setup target device
+device = &quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;
+
+# Create transforms
+data_transform = transforms.Compose([
+  transforms.Resize((64, 64)),
+  transforms.ToTensor()
+])
+
+# Create DataLoaders with help from data_setup.py
+train_dataloader, test_dataloader, class_names = data_setup.create_dataloaders(
+    train_dir=train_dir,
+    test_dir=test_dir,
+    transform=data_transform,
+    batch_size=BATCH_SIZE
+)
+
+# Create model with help from model_builder.py
+model = model_builder.TinyVGG(
+    input_shape=3,
+    hidden_units=HIDDEN_UNITS,
+    output_shape=len(class_names)
+).to(device)
+
+# Set loss and optimizer
+loss_fn = torch.nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(),
+                             lr=LEARNING_RATE)
+
+# Start training with help from engine.py
+engine.train(model=model,
+             train_dataloader=train_dataloader,
+             test_dataloader=test_dataloader,
+             loss_fn=loss_fn,
+             optimizer=optimizer,
+             epochs=NUM_EPOCHS,
+             device=device)
+
+# Save the model with help from utils.py
+utils.save_model(model=model,
+                 target_dir=&quot;models&quot;,
+                 model_name=&quot;05_going_modular_script_mode_tinyvgg_model.pth&quot;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overwriting going_modular/train.py
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now our final directory structure looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">/</span>
+  <span class="n">pizza_steak_sushi</span><span class="o">/</span>
+    <span class="n">train</span><span class="o">/</span>
+      <span class="n">pizza</span><span class="o">/</span>
+        <span class="n">train_image_01</span><span class="o">.</span><span class="n">jpeg</span>
+        <span class="n">train_image_02</span><span class="o">.</span><span class="n">jpeg</span>
+        <span class="o">...</span>
+      <span class="n">steak</span><span class="o">/</span>
+      <span class="n">sushi</span><span class="o">/</span>
+    <span class="n">test</span><span class="o">/</span>
+      <span class="n">pizza</span><span class="o">/</span>
+        <span class="n">test_image_01</span><span class="o">.</span><span class="n">jpeg</span>
+        <span class="n">test_image_02</span><span class="o">.</span><span class="n">jpeg</span>
+        <span class="o">...</span>
+      <span class="n">steak</span><span class="o">/</span>
+      <span class="n">sushi</span><span class="o">/</span>
+<span class="n">going_modular</span><span class="o">/</span>
+  <span class="n">data_setup</span><span class="o">.</span><span class="n">py</span>
+  <span class="n">engine</span><span class="o">.</span><span class="n">py</span>
+  <span class="n">model_builder</span><span class="o">.</span><span class="n">py</span>
+  <span class="n">train</span><span class="o">.</span><span class="n">py</span>
+  <span class="n">utils</span><span class="o">.</span><span class="n">py</span>
+<span class="n">models</span><span class="o">/</span>
+  <span class="n">saved_model</span><span class="o">.</span><span class="n">pth</span>
+</pre></div>
+</div>
+<p>Now to put it all together!</p>
+<p>Let’s run our <code class="docutils literal notranslate"><span class="pre">train.py</span></code> file from the command line with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!python going_modular/train.py
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!python going_modular/train.py
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                     | 0/5 [00:00&lt;?, ?it/s]Epoch: 1 | train_loss: 1.1131 | train_acc: 0.2852 | test_loss: 1.1138 | test_acc: 0.2604
+ 20%|█████████                                    | 1/5 [00:01&lt;00:04,  1.06s/it]Epoch: 2 | train_loss: 1.0851 | train_acc: 0.4102 | test_loss: 1.1238 | test_acc: 0.1979
+ 40%|██████████████████                           | 2/5 [00:01&lt;00:02,  1.20it/s]Epoch: 3 | train_loss: 1.0837 | train_acc: 0.4141 | test_loss: 1.1459 | test_acc: 0.1979
+ 60%|███████████████████████████                  | 3/5 [00:02&lt;00:01,  1.33it/s]Epoch: 4 | train_loss: 1.1104 | train_acc: 0.2930 | test_loss: 1.1318 | test_acc: 0.1979
+ 80%|████████████████████████████████████         | 4/5 [00:03&lt;00:00,  1.40it/s]Epoch: 5 | train_loss: 1.0833 | train_acc: 0.2930 | test_loss: 1.0883 | test_acc: 0.3712
+100%|█████████████████████████████████████████████| 5/5 [00:03&lt;00:00,  1.35it/s]
+[INFO] Saving model to: models/05_going_modular_script_mode_tinyvgg_model.pth
+</pre></div>
+</div>
+</div>
+</div>
+<p>Woah!</p>
+<p>Look at that!</p>
+<p>We’ve just trained a model with a single line of code from the command line.</p>
+<p>We wrote a fair of code to do so, however, now we’ve got our code in <code class="docutils literal notranslate"><span class="pre">.py</span></code> files we can import them and reuse them as much as we like.</p>
+<p>For exercises and extra-curriculum for this section, refer to the <a class="reference external" href="https://www.learnpytorch.io/05_pytorch_going_modular/#exercises">online book version of 05. PyTorch Going Modular</a>.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./classical_network/vision_transformer/going_modular"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-script-mode">What is script mode?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-has-script-mode-got-to-do-with-pytorch">What has script mode got to do with PyTorch?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-in-the-wild">PyTorch in the wild</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-the-difference-between-this-notebook-part-2-and-the-cell-mode-notebook-part-1">What’s the difference between this notebook (Part 2) and the cell mode notebook (Part 1)?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-we-re-going-to-cover">What we’re going to cover</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-can-you-get-help">Where can you get help?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-folder-for-storing-python-scripts">0. Creating a folder for storing Python scripts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-data">1. Get data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-datasets-and-dataloaders">2. Create Datasets and DataLoaders</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-datasets-and-dataloaders-script-mode">2.1 Create Datasets and DataLoaders (script mode)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-a-model-tinyvgg">3. Making a model (TinyVGG)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-a-model-tinyvgg-script-mode">3.1 Making a model (TinyVGG) (script mode)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-train-step-and-test-step-functions-and-train-to-combine-them">4. Creating <code class="docutils literal notranslate"><span class="pre">train_step()</span></code> and <code class="docutils literal notranslate"><span class="pre">test_step()</span></code> functions and <code class="docutils literal notranslate"><span class="pre">train()</span></code> to combine them</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-train-step-and-test-step-functions-and-train-to-combine-them-script-mode">4.1 Creating <code class="docutils literal notranslate"><span class="pre">train_step()</span></code> and <code class="docutils literal notranslate"><span class="pre">test_step()</span></code> functions and <code class="docutils literal notranslate"><span class="pre">train()</span></code> to combine them (script mode)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-function-to-save-the-model">5. Creating a function to save the model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-function-to-save-the-model-script-mode">5.1 Creating a function to save the model (script mode)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-evaluate-and-save-the-model">6. Train, evaluate and save the model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-evaluate-and-save-the-model-script-mode">6.1 Train, evaluate and save the model (script mode)</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
